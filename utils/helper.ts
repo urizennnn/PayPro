@@ -1,4 +1,5 @@
 import { pool } from "../Database/SQLconnection";
+import crypto from 'crypto'
 
 export function queryAsync(sql: string, values: any[]): Promise<any> {
     return new Promise((resolve, reject) => {
@@ -18,4 +19,31 @@ export function queryAsync(sql: string, values: any[]): Promise<any> {
             });
         });
     });
+}
+
+
+export function createVerificationToken(): string {
+  return crypto.randomBytes(40).toString("hex");
+}
+export function generateRefreshToken(): string {
+  return crypto.randomBytes(40).toString("hex");
+}
+
+export async function insertData(Email: any, Bname: string,date:string,token:string,special:string) {
+   
+
+    const insertQuery = `INSERT INTO ${process.env.TABLE}(${process.env.PRI}, ${process.env.Token}, ${process.env.Date},${process.env.Name},${process.env.Unique}) VALUES (?, ?,?, ?,?);`;
+    try {
+        const result = await queryAsync(insertQuery, [Email, Bname, token,date,Bname,special]);
+        console.log('Data inserted successfully:', result);
+
+    } catch (error: any) {
+        if (error.message.includes('Out of range value for column')) {
+            console.error(`Error inserting data: ${error.message}.`);
+            throw new Error('Internal server Error');
+        } else {
+            console.error('Error inserting data:', error.message);
+            throw new Error(error);
+        }
+    }
 }
