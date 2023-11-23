@@ -7,10 +7,10 @@ exports.ConnectSQL = exports.pool = void 0;
 const mysql_1 = __importDefault(require("mysql"));
 exports.pool = mysql_1.default.createPool({
     connectionLimit: 10,
-    host: process.env.HOST || 'bwkddf84plde7tumpffh-mysql.services.clever-cloud.com',
-    user: process.env.DB_USER || 'ual3zzhsksisf9dy',
-    password: process.env.PASSWORD || 'isRdV3O72e58gJHp2mq',
-    database: process.env.DATABASE || 'bwkddf84plde7tumpffh',
+    host: 'br0fwignvvpehpqkutu6-mysql.services.clever-cloud.com',
+    user: 'uqlyip0xqk4o6mfg',
+    password: '5owQCvbPU5bbvYvZFggY',
+    database: 'br0fwignvvpehpqkutu6',
 });
 function ConnectSQL() {
     exports.pool.getConnection((err, connection) => {
@@ -20,6 +20,10 @@ function ConnectSQL() {
         }
         console.log('Connected to MySQL');
         connection.on('error', (error) => {
+            if (error.code === 'PROTOCOL_SEQUENCE_TIMEOUT') {
+                console.error('Connection lost. Reconnecting...');
+                ConnectSQL();
+            }
             if (error.code === 'PROTOCOL_CONNECTION_LOST') {
                 console.error('Connection lost. Reconnecting...');
                 ConnectSQL();
