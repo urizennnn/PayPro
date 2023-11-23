@@ -17,7 +17,7 @@ const SignUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         if (!Email || !BName || !Password) {
             return res.status(400).json({ success: false, message: 'Bad Request: Missing required parameters' });
         }
-        const date = new Date().toISOString().split('T')[0].replace(/-/g, '/');
+        const date = new Date().toISOString().split('T')[0];
         const Vtoken = (0, helper_1.generateRefreshToken)();
         yield (0, helper_1.insertData)(Email, BName, date, Vtoken, Password);
         res.status(200).json({ success: true, message: 'User signed up successfully' });

@@ -9,7 +9,8 @@ export const SignUser = async (req: Request, res: Response) => {
       return res.status(400).json({ success: false, message: 'Bad Request: Missing required parameters' });
     }
 
-    const date: string = new Date().toISOString().split('T')[0].replace(/-/g, '/');
+   const date = new Date().toISOString().split('T')[0];
+
     const Vtoken: string = generateRefreshToken();
 
     await insertData(Email, BName, date, Vtoken, Password);
