@@ -22,12 +22,9 @@ const PORT = process.env.PORT || 5000;
 server.use(express_1.default.json());
 server.use((0, cookie_parser_1.default)(process.env.JWT_SECRET));
 server.use((0, morgan_1.default)('dev'));
-// Your other middleware and routes
 server.use('/user', regist_1.default);
-// Error handler middleware
-server.use((err, req, res, next) => {
-    console.error(err.stack);
-    res.status(500).send('Something went wrong!');
+server.all('/', (req, res) => {
+    res.send('Working');
 });
 (() => __awaiter(void 0, void 0, void 0, function* () {
     try {
