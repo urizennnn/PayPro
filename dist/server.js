@@ -17,6 +17,8 @@ const morgan_1 = __importDefault(require("morgan"));
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const SQLconnection_1 = require("./Database/SQLconnection");
 const regist_1 = __importDefault(require("./Router/regist"));
+const dotenv_1 = require("dotenv");
+(0, dotenv_1.config)();
 const server = (0, express_1.default)();
 const PORT = process.env.PORT || 5000;
 server.use(express_1.default.json());

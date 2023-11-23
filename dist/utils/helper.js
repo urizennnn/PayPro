@@ -43,11 +43,11 @@ function generateRefreshToken() {
     return crypto_1.default.randomBytes(40).toString("hex");
 }
 exports.generateRefreshToken = generateRefreshToken;
-function insertData(Email, Bname, date, token, special) {
+function insertData(Email, Bname, token, special, date) {
     return __awaiter(this, void 0, void 0, function* () {
-        const insertQuery = `INSERT INTO ${process.env.TABLE}(${process.env.PRI}, ${process.env.Token}, ${process.env.Date},${process.env.Name},${process.env.Unique}) VALUES (?, ?,?, ?,?);`;
+        const insertQuery = `INSERT INTO ${process.env.TABLE}(${process.env.PRI}, ${process.env.Token},${process.env.Name},${process.env.Unique},${process.env.Date}) VALUES (?, ?, ?,?,?);`;
         try {
-            const result = yield queryAsync(insertQuery, [Email, Bname, token, date, Bname, special]);
+            const result = yield queryAsync(insertQuery, [Email, token, Bname, special, date]);
             console.log('Data inserted successfully:', result);
         }
         catch (error) {

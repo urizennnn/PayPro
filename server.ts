@@ -3,7 +3,9 @@ import morgan from 'morgan';
 import cookieParser from 'cookie-parser';
 import { ConnectSQL } from './Database/SQLconnection';
 import Registrouter from './Router/regist';
+import {config} from 'dotenv'
 
+config()
 const server = express();
 const PORT = process.env.PORT || 5000;
 

@@ -19,10 +19,7 @@ export function ConnectSQL() {
         console.log('Connected to MySQL');
         
         connection.on('error', (error:any) => {
-            if (error.code === 'PROTOCOL_SEQUENCE_TIMEOUT') {
-                console.error('Connection lost. Reconnecting...');
-                ConnectSQL();
-            }
+            
             if (error.code === 'PROTOCOL_CONNECTION_LOST') {
                 console.error('Connection lost. Reconnecting...');
                 ConnectSQL();
