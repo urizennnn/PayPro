@@ -1,25 +1,25 @@
-import {Request,Response} from 'express'
-import { findUser,LoginUser } from '../utils/helper'
+import { Request, Response } from 'express';
+import { findUser, LoginUser } from '../utils/helper';
 
-export const loginUser = async(req:Request,res:Response)=>{
-    try{
-        
-        const {Email,Password} = req.body
-const user:any = await findUser(Email)
+export const loginUser = async (req: Request, res: Response) => {
+    try {
+        const { Email, Password } = req.body;
 
-if(!user){
-    res.status(400).json({'success':false,'message':"User does not exist"})
-}
+        const user: any = await findUser(Email);
 
-const check:any = await LoginUser(Email)
+        if (!user) {
+            return res.status(400).json({ success: false, message: "User does not exist" });
+        }
 
-if(check === Password){
-   return res.status(200).json({'success':true,'message':"User logged In","user":user})
-    }
+        const storedPassword: any = await LoginUser(Email);
 
-}catch(error:any){
-    console.error('Error signing up user:', error);
+        if (storedPassword === Password) {
+            return res.status(200).json({ success: true, message: "User logged in", user: user });
+        } else {
+            return res.status(401).json({ success: false, message: "Incorrect password" });
+        }
+    } catch (error: any) {
+        console.error('Error logging in user:', error);
         res.status(500).json({ success: false, error: error.message });
-}
-
-}
+    }
+};
