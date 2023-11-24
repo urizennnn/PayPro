@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.findUser = exports.generateExpirationTime = exports.generateOTP = exports.insertData = exports.generateRefreshToken = exports.createVerificationToken = exports.queryAsync = void 0;
+exports.updateUser = exports.findUser = exports.generateExpirationTime = exports.generateOTP = exports.insertData = exports.generateRefreshToken = exports.createVerificationToken = exports.queryAsync = void 0;
 const SQLconnection_1 = require("../Database/SQLconnection");
 const crypto_1 = __importDefault(require("crypto"));
 function queryAsync(sql, values) {
@@ -87,3 +87,17 @@ function findUser(email) {
     });
 }
 exports.findUser = findUser;
+function updateUser(email) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const query = `UPDATE ${process.env.TABLE} SET isVerified = true where ${process.env.TABLE}.${process.env.PRI} = ?`;
+        try {
+            const result = yield queryAsync(query, [email]);
+            return result;
+        }
+        catch (error) {
+            console.error('Error finding user:', error.message);
+            throw new Error(error);
+        }
+    });
+}
+exports.updateUser = updateUser;

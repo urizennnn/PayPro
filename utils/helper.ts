@@ -68,3 +68,15 @@ export async function findUser(email: string): Promise<void> {
         throw new Error(error);
     }
 }
+
+export async function updateUser(email:string){
+const query = `UPDATE ${process.env.TABLE} SET isVerified = true where ${process.env.TABLE}.${process.env.PRI} = ?`
+try{
+    const result = await queryAsync(query,[email])
+    return result
+}catch(error:any){
+      console.error('Error finding user:', error.message);
+        throw new Error(error);
+}
+
+}
