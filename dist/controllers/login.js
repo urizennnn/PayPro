@@ -24,7 +24,7 @@ const loginUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         const payload = {
             Email, Password
         };
-        console.log(user, storedPassword);
+        console.log(user, storedPassword, Email, Password);
         if (storedPassword === Password) {
             (0, jwt_1.cookies)(res, payload, refreshtoken);
             return res.status(200).json({ success: true, message: "User logged in", user: user });

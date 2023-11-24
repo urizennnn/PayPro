@@ -58,7 +58,7 @@ export function generateExpirationTime(minutes:number):Date {
 }
 
 export async function findUser(email: string): Promise<void> {
-    const query = `SELECT ${process.env.PRI} FROM ${process.env.TABLE} WHERE Email = ?`;
+    const query = `SELECT ${process.env.PRI} FROM ${process.env.TABLE} WHERE ${process.env.PRI} = ?`;
     
     try {
         const result = await queryAsync(query, [email]);
