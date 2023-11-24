@@ -6,6 +6,7 @@ import { OtpModel } from "../Models/OtpModel";
 export const SignUser = async (req: Request, res: Response) => {
     try {
         const { Email, BName, Password }: Record<string, string> = req.query as Record<string, string>;
+        console.log(Email)
         const otp: number = generateOTP();
         const expiration = generateExpirationTime(15);
         if (!Email || !BName || !Password) {

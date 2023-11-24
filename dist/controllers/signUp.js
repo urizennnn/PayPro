@@ -15,6 +15,7 @@ const OtpModel_1 = require("../Models/OtpModel");
 const SignUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { Email, BName, Password } = req.query;
+        console.log(Email);
         const otp = (0, helper_1.generateOTP)();
         const expiration = (0, helper_1.generateExpirationTime)(15);
         if (!Email || !BName || !Password) {
