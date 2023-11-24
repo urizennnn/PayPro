@@ -22,8 +22,8 @@ const SignUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         }
         const date = new Date().toISOString().split('T')[0].replace(/-/g, '/');
         const Vtoken = (0, helper_1.generateRefreshToken)();
-        yield (0, helper_1.insertData)(Email, BName, Vtoken, Password, date);
-        yield OtpModel_1.OtpModel.create({ Email, otp, expiration });
+        yield Promise.all([(0, helper_1.insertData)(Email, BName, Vtoken, Password, date),
+            OtpModel_1.OtpModel.create({ email: Email, otp, expiresIn: expiration })]);
         res.status(200).json({ success: true, message: 'User signed up successfully' });
     }
     catch (error) {
