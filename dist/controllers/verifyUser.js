@@ -21,7 +21,7 @@ const verifyUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
             if (user) {
                 user.isVerified = true;
                 try {
-                    yield Promise.all([OtpModel_1.OtpModel.findOneAndDelete({ email: Email }), user.save()]);
+                    yield Promise.all([OtpModel_1.OtpModel.findOneAndDelete({ email: Email })]);
                     res.status(200).json({ success: true, message: "Email verified" });
                 }
                 catch (saveError) {

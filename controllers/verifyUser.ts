@@ -14,7 +14,7 @@ export const verifyUser = async (req: Request, res: Response) => {
                 user.isVerified = true;
                 
                 try {
-                    await Promise.all([OtpModel.findOneAndDelete({ email: Email }), user.save()]);
+                    await Promise.all([OtpModel.findOneAndDelete({ email: Email })]);
                     res.status(200).json({ success: true, message: "Email verified" });
                 } catch (saveError:any) {
                     console.error('Error saving user:', saveError);
