@@ -19,12 +19,12 @@ export const SignUser = async (req: Request, res: Response) => {
         const BNameString = BName[0]
         const StringPassword = Password[0]
 
-        const result = await Promise.all([
-            insertData(emailString, BName, Password, date),
+        await Promise.all([
+            insertData(emailString, BNameString, StringPassword, date),
             OtpModel.create({ email: emailString, otp, expiresIn: expiration })
         ]);
 
-        console.log('Insert Data Result:', result);
+        
 
         res.status(200).json({ success: true, message: 'User signed up successfully' });
     } catch (error: any) {

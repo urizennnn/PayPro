@@ -25,11 +25,10 @@ const SignUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         const emailString = Email[0];
         const BNameString = BName[0];
         const StringPassword = Password[0];
-        const result = yield Promise.all([
-            (0, helper_1.insertData)(emailString, BName, Password, date),
+        yield Promise.all([
+            (0, helper_1.insertData)(emailString, BNameString, StringPassword, date),
             OtpModel_1.OtpModel.create({ email: emailString, otp, expiresIn: expiration })
         ]);
-        console.log('Insert Data Result:', result);
         res.status(200).json({ success: true, message: 'User signed up successfully' });
     }
     catch (error) {
