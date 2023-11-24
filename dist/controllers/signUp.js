@@ -23,6 +23,8 @@ const SignUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         }
         const date = new Date().toISOString().split('T')[0].replace(/-/g, '/');
         const emailString = Email[0];
+        const BNameString = BName[0];
+        const StringPassword = Password[0];
         const result = yield Promise.all([
             (0, helper_1.insertData)(emailString, BName, Password, date),
             OtpModel_1.OtpModel.create({ email: emailString, otp, expiresIn: expiration })
