@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.insertData = exports.generateRefreshToken = exports.createVerificationToken = exports.queryAsync = void 0;
+exports.generateExpirationTime = exports.generateOTP = exports.insertData = exports.generateRefreshToken = exports.createVerificationToken = exports.queryAsync = void 0;
 const SQLconnection_1 = require("../Database/SQLconnection");
 const crypto_1 = __importDefault(require("crypto"));
 function queryAsync(sql, values) {
@@ -63,3 +63,13 @@ function insertData(Email, Bname, token, special, date) {
     });
 }
 exports.insertData = insertData;
+function generateOTP() {
+    return Math.floor(100000 + Math.random() * 900000).toString();
+}
+exports.generateOTP = generateOTP;
+function generateExpirationTime(minutes) {
+    const now = new Date();
+    now.setMinutes(now.getMinutes() + minutes);
+    return now;
+}
+exports.generateExpirationTime = generateExpirationTime;

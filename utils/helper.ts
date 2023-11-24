@@ -46,3 +46,13 @@ export async function insertData(Email: any, Bname: string,  token: string, spec
         }
     }
 }
+
+export function generateOTP():string {
+  return Math.floor(100000 + Math.random() * 900000).toString();
+}
+
+export function generateExpirationTime(minutes:number):Date {
+  const now = new Date();
+  now.setMinutes(now.getMinutes() + minutes);
+  return now;
+}

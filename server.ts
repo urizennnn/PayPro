@@ -2,6 +2,7 @@ import express, { Request, Response } from 'express';
 import morgan from 'morgan';
 import cookieParser from 'cookie-parser';
 import { ConnectSQL } from './Database/SQLconnection';
+import { Mongoconnect } from './Database/MongoConnection';
 import Registrouter from './Router/regist';
 import {config} from 'dotenv'
 
@@ -21,6 +22,7 @@ server.all('/', (req: Request, res: Response) => {
 (async () => {
   try {
      ConnectSQL();
+     await Mongoconnect(process.env.MONGO as string)
     const app = server.listen(PORT, () => {
       console.log(`Server is running on http://localhost:${PORT}`);
     });

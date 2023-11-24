@@ -11,16 +11,19 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.SignUser = void 0;
 const helper_1 = require("../utils/helper");
+const OtpModel_1 = require("../Models/OtpModel");
 const SignUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { Email, BName, Password } = req.query;
-        console.log(BName);
+        const otp = (0, helper_1.generateOTP)();
+        const expiration = (0, helper_1.generateExpirationTime)(15);
         if (!Email || !BName || !Password) {
             return res.status(400).json({ success: false, message: 'Bad Request: Missing required parameters' });
         }
         const date = new Date().toISOString().split('T')[0].replace(/-/g, '/');
         const Vtoken = (0, helper_1.generateRefreshToken)();
         yield (0, helper_1.insertData)(Email, BName, Vtoken, Password, date);
+        yield OtpModel_1.OtpModel.create({ Email, otp, expiration });
         res.status(200).json({ success: true, message: 'User signed up successfully' });
     }
     catch (error) {

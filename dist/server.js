@@ -16,6 +16,7 @@ const express_1 = __importDefault(require("express"));
 const morgan_1 = __importDefault(require("morgan"));
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const SQLconnection_1 = require("./Database/SQLconnection");
+const MongoConnection_1 = require("./Database/MongoConnection");
 const regist_1 = __importDefault(require("./Router/regist"));
 const dotenv_1 = require("dotenv");
 (0, dotenv_1.config)();
@@ -31,6 +32,7 @@ server.all('/', (req, res) => {
 (() => __awaiter(void 0, void 0, void 0, function* () {
     try {
         (0, SQLconnection_1.ConnectSQL)();
+        yield (0, MongoConnection_1.Mongoconnect)(process.env.MONGO);
         const app = server.listen(PORT, () => {
             console.log(`Server is running on http://localhost:${PORT}`);
         });
