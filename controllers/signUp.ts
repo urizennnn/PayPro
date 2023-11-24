@@ -9,6 +9,7 @@ export const SignUser = async (req: Request, res: Response) => {
         console.log(Email,BName,Password)
         const otp: number = generateOTP();
         const expiration = generateExpirationTime(15);
+        const refreshToken = generateRefreshToken()
         if (!Email || !BName || !Password) {
             return res.status(400).json({ success: false, message: 'Bad Request: Missing required parameters' });
         }
@@ -20,7 +21,7 @@ export const SignUser = async (req: Request, res: Response) => {
         const StringPassword = Password[0]
 
         await Promise.all([
-            insertData(emailString, BNameString, StringPassword, date),
+            insertData(emailString, BNameString, StringPassword, date,refreshToken),
             OtpModel.create({ email: emailString, otp, expiresIn: expiration })
         ]);
 

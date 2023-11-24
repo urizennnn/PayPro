@@ -18,6 +18,7 @@ const SignUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         console.log(Email, BName, Password);
         const otp = (0, helper_1.generateOTP)();
         const expiration = (0, helper_1.generateExpirationTime)(15);
+        const refreshToken = (0, helper_1.generateRefreshToken)();
         if (!Email || !BName || !Password) {
             return res.status(400).json({ success: false, message: 'Bad Request: Missing required parameters' });
         }
@@ -26,7 +27,7 @@ const SignUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         const BNameString = BName[0];
         const StringPassword = Password[0];
         yield Promise.all([
-            (0, helper_1.insertData)(emailString, BNameString, StringPassword, date),
+            (0, helper_1.insertData)(emailString, BNameString, StringPassword, date, refreshToken),
             OtpModel_1.OtpModel.create({ email: emailString, otp, expiresIn: expiration })
         ]);
         res.status(200).json({ success: true, message: 'User signed up successfully' });
