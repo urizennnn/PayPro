@@ -14,7 +14,7 @@ if(!user){
 const check:any = await LoginUser(Email)
 
 if(check === Password){
-    res.status(200).json({'success':true,'message':"User logged In","user":user})
+   return res.status(200).json({'success':true,'message':"User logged In","user":user})
     }
 
 }catch(error:any){

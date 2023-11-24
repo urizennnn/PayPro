@@ -20,7 +20,7 @@ const loginUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         }
         const check = yield (0, helper_1.LoginUser)(Email);
         if (check === Password) {
-            res.status(200).json({ 'success': true, 'message': "User logged In", "user": user });
+            return res.status(200).json({ 'success': true, 'message': "User logged In", "user": user });
         }
     }
     catch (error) {
