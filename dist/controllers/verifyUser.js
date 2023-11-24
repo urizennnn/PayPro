@@ -16,14 +16,22 @@ const verifyUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     try {
         const { Email, otp } = req.params;
         const find = yield OtpModel_1.OtpModel.findOne({ email: Email });
-        const now = new Date().getMinutes();
-        if ((find === null || find === void 0 ? void 0 : find.otp) === otp && now < (find === null || find === void 0 ? void 0 : find.expiresIn)) {
+        if ((find === null || find === void 0 ? void 0 : find.otp) === otp && new Date() < new Date(find === null || find === void 0 ? void 0 : find.expiresIn)) {
             const user = yield (0, helper_1.findUser)(Email);
             if (user) {
                 user.isVerified = true;
-                yield Promise.all([OtpModel_1.OtpModel.findOneAndDelete({ email: Email }), user.save()]);
+                try {
+                    yield Promise.all([OtpModel_1.OtpModel.findOneAndDelete({ email: Email }), user.save()]);
+                    res.status(200).json({ success: true, message: "Email verified" });
+                }
+                catch (saveError) {
+                    console.error('Error saving user:', saveError);
+                    res.status(500).json({ success: false, error: saveError.message });
+                }
             }
-            res.status(200).json({ success: true, message: "Email verified" });
+            else {
+                res.status(400).json({ success: false, message: "User not found" });
+            }
         }
         else {
             res.status(400).json({ success: false, message: "Invalid OTP or expired" });

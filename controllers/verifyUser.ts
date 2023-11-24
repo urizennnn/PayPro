@@ -6,22 +6,27 @@ export const verifyUser = async (req: Request, res: Response) => {
     try {
         const { Email, otp } = req.params;
         const find = await OtpModel.findOne({ email: Email });
-        const now = new Date().getMinutes();
 
-        if (find?.otp === otp && now < find?.expiresIn) {
-            const user:any = await findUser(Email);
+        if (find?.otp === otp && new Date() < new Date(find?.expiresIn)) {
+            const user: any = await findUser(Email);
 
             if (user) {
                 user.isVerified = true;
-               await Promise.all([OtpModel.findOneAndDelete({email:Email}), user.save()])
                 
+                try {
+                    await Promise.all([OtpModel.findOneAndDelete({ email: Email }), user.save()]);
+                    res.status(200).json({ success: true, message: "Email verified" });
+                } catch (saveError:any) {
+                    console.error('Error saving user:', saveError);
+                    res.status(500).json({ success: false, error: saveError.message });
+                }
+            } else {
+                res.status(400).json({ success: false, message: "User not found" });
             }
-
-            res.status(200).json({ success: true, message: "Email verified" })
         } else {
             res.status(400).json({ success: false, message: "Invalid OTP or expired" });
         }
-    } catch (error:any) {
+    } catch (error: any) {
         console.error('Error verifying user:', error);
         res.status(500).json({ success: false, error: error.message });
     }
