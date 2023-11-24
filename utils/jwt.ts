@@ -20,7 +20,7 @@ export function cookies(
 ): void {
   console.log("Ran through cookies");
   const accessTokenJWT = createJWT(user);
-  const refreshTokenJWT = createJWT({ user, refreshToken });
+  const refreshTokenJWT = createJWT( {user,refreshToken} );
   const timeLimit = 1000 * 60 * 60 * 24;
 
   res.cookie("accessToken", accessTokenJWT, {

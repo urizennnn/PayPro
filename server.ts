@@ -7,7 +7,7 @@ import Registrouter from './Router/regist';
 import {config} from 'dotenv'
 
 config()
-const server = express();
+export const server = express();
 const PORT = process.env.PORT || 5000;
 
 server.use(express.json());

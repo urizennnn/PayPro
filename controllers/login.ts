@@ -1,19 +1,24 @@
 import { Request, Response } from 'express';
-import { findUser, LoginUser } from '../utils/helper';
+import { findUser, LoginUser,generateRefreshToken } from '../utils/helper';
+import { cookies } from '../utils/jwt';
 
 export const loginUser = async (req: Request, res: Response) => {
     try {
-        const { Email, Password } = req.body;
+        const { Email, Password } = req.params;
 
         const user: any = await findUser(Email);
 
         if (!user) {
             return res.status(400).json({ success: false, message: "User does not exist" });
         }
-
+        const refreshtoken = generateRefreshToken()
         const storedPassword: any = await LoginUser(Email);
+        const payload :object={
+                Email,Password
+        }
 
         if (storedPassword === Password) {
+            cookies(res,payload,refreshtoken)
             return res.status(200).json({ success: true, message: "User logged in", user: user });
         } else {
             return res.status(401).json({ success: false, message: "Incorrect password" });

@@ -12,6 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.server = void 0;
 const express_1 = __importDefault(require("express"));
 const morgan_1 = __importDefault(require("morgan"));
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
@@ -20,20 +21,20 @@ const MongoConnection_1 = require("./Database/MongoConnection");
 const regist_1 = __importDefault(require("./Router/regist"));
 const dotenv_1 = require("dotenv");
 (0, dotenv_1.config)();
-const server = (0, express_1.default)();
+exports.server = (0, express_1.default)();
 const PORT = process.env.PORT || 5000;
-server.use(express_1.default.json());
-server.use((0, cookie_parser_1.default)(process.env.JWT_SECRET));
-server.use((0, morgan_1.default)('dev'));
-server.use('/user', regist_1.default);
-server.all('/', (req, res) => {
+exports.server.use(express_1.default.json());
+exports.server.use((0, cookie_parser_1.default)(process.env.JWT_SECRET));
+exports.server.use((0, morgan_1.default)('dev'));
+exports.server.use('/user', regist_1.default);
+exports.server.all('/', (req, res) => {
     res.send('Working');
 });
 (() => __awaiter(void 0, void 0, void 0, function* () {
     try {
         (0, SQLconnection_1.ConnectSQL)();
         yield (0, MongoConnection_1.Mongoconnect)(process.env.MONGO);
-        const app = server.listen(PORT, () => {
+        const app = exports.server.listen(PORT, () => {
             console.log(`Server is running on http://localhost:${PORT}`);
         });
         process.on('SIGINT', () => {
