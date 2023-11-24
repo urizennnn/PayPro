@@ -6,7 +6,7 @@ import { OtpModel } from "../Models/OtpModel";
 export const SignUser = async (req: Request, res: Response) => {
     try {
         const { Email, BName, Password }: Record<string, string> = req.query as Record<string, string>;
-        console.log(Email)
+        console.log(Email,BName,Password)
         const otp: number = generateOTP();
         const expiration = generateExpirationTime(15);
         if (!Email || !BName || !Password) {
@@ -15,7 +15,7 @@ export const SignUser = async (req: Request, res: Response) => {
 
         const date: string = new Date().toISOString().split('T')[0].replace(/-/g, '/');
         
-        const emailString = Email as string;
+        const emailString = Email[0]
 
         const result = await Promise.all([
             insertData(emailString, BName, Password, date),

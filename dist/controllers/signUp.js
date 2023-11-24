@@ -15,14 +15,14 @@ const OtpModel_1 = require("../Models/OtpModel");
 const SignUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { Email, BName, Password } = req.query;
-        console.log(Email);
+        console.log(Email, BName, Password);
         const otp = (0, helper_1.generateOTP)();
         const expiration = (0, helper_1.generateExpirationTime)(15);
         if (!Email || !BName || !Password) {
             return res.status(400).json({ success: false, message: 'Bad Request: Missing required parameters' });
         }
         const date = new Date().toISOString().split('T')[0].replace(/-/g, '/');
-        const emailString = Email;
+        const emailString = Email[0];
         const result = yield Promise.all([
             (0, helper_1.insertData)(emailString, BName, Password, date),
             OtpModel_1.OtpModel.create({ email: emailString, otp, expiresIn: expiration })
