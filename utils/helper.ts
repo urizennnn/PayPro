@@ -47,8 +47,8 @@ export async function insertData(Email: any, Bname: string, special: string,date
     }
 }
 
-export function generateOTP():string {
-  return Math.floor(100000 + Math.random() * 900000).toString();
+export function generateOTP():number {
+  return Math.floor(100000 + Math.random() * 900000)
 }
 
 export function generateExpirationTime(minutes:number):Date {

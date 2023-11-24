@@ -64,7 +64,7 @@ function insertData(Email, Bname, special, date) {
 }
 exports.insertData = insertData;
 function generateOTP() {
-    return Math.floor(100000 + Math.random() * 900000).toString();
+    return Math.floor(100000 + Math.random() * 900000);
 }
 exports.generateOTP = generateOTP;
 function generateExpirationTime(minutes) {
