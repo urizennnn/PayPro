@@ -7,7 +7,7 @@ export const verifyUser = async (req: Request, res: Response) => {
         const { Email, otp } = req.params;
         const find = await OtpModel.findOne({ email: Email });
 
-        if (find?.otp === otp && new Date() < new Date(find?.expiresIn)) {
+        if (find?.otp.toString() === otp && new Date() < new Date(find?.expiresIn)) {
             const user: any = await findUser(Email);
 
             if (user) {

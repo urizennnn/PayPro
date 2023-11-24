@@ -1,7 +1,7 @@
 import {Document} from 'mongoose'
 
 export interface Otp extends Document{
-    otp:string,
+    otp:number,
     expiresIn:number,
     email:string
 }

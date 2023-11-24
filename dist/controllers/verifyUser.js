@@ -16,7 +16,7 @@ const verifyUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     try {
         const { Email, otp } = req.params;
         const find = yield OtpModel_1.OtpModel.findOne({ email: Email });
-        if ((find === null || find === void 0 ? void 0 : find.otp) === otp && new Date() < new Date(find === null || find === void 0 ? void 0 : find.expiresIn)) {
+        if ((find === null || find === void 0 ? void 0 : find.otp.toString()) === otp && new Date() < new Date(find === null || find === void 0 ? void 0 : find.expiresIn)) {
             const user = yield (0, helper_1.findUser)(Email);
             if (user) {
                 user.isVerified = true;
