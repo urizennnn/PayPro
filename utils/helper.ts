@@ -29,12 +29,12 @@ export function generateRefreshToken(): string {
     return crypto.randomBytes(40).toString("hex");
 }
 
-export async function insertData(Email: any, Bname: string,  token: string, special: string,date:string) {
+export async function insertData(Email: any, Bname: string, special: string,date:string) {
            
 
-    const insertQuery = `INSERT INTO ${process.env.TABLE}(${process.env.PRI}, ${process.env.Token},${process.env.Name},${process.env.Unique},${process.env.Date}) VALUES (?, ?, ?,?,?);`;
+    const insertQuery = `INSERT INTO ${process.env.TABLE}(${process.env.PRI}, ${process.env.Name},${process.env.Unique},${process.env.Date}) VALUES (?, ?, ?,?);`;
     try {
-        const result = await queryAsync(insertQuery, [Email, token,  Bname, special,date]);
+        const result = await queryAsync(insertQuery, [Email,  Bname, special,date]);
         console.log('Data inserted successfully:', result);
     } catch (error: any) {
         if (error.message.includes('Out of range value for column')) {
@@ -55,4 +55,16 @@ export function generateExpirationTime(minutes:number):Date {
   const now = new Date();
   now.setMinutes(now.getMinutes() + minutes);
   return now;
+}
+
+export async function findUser(email: string): Promise<void> {
+    const query = `SELECT ${process.env.PRI} FROM ${process.env.TABLE} WHERE Email = ?`;
+    
+    try {
+        const result = await queryAsync(query, [email]);
+        return result;
+    } catch (error: any) {
+        console.error('Error finding user:', error.message);
+        throw new Error(error);
+    }
 }

@@ -3,7 +3,7 @@ import { Otp } from "../Interface/OTP";
 
 const OtpSchema = new Schema<Otp>({
     otp:{type:String,required:true},
-    expiresIn:{type:String,required:true},
+    expiresIn:{type:Number,required:true},
     email:{type:String,required:true}
 })
 

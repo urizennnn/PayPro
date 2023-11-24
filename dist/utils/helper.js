@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.generateExpirationTime = exports.generateOTP = exports.insertData = exports.generateRefreshToken = exports.createVerificationToken = exports.queryAsync = void 0;
+exports.findUser = exports.generateExpirationTime = exports.generateOTP = exports.insertData = exports.generateRefreshToken = exports.createVerificationToken = exports.queryAsync = void 0;
 const SQLconnection_1 = require("../Database/SQLconnection");
 const crypto_1 = __importDefault(require("crypto"));
 function queryAsync(sql, values) {
@@ -43,11 +43,11 @@ function generateRefreshToken() {
     return crypto_1.default.randomBytes(40).toString("hex");
 }
 exports.generateRefreshToken = generateRefreshToken;
-function insertData(Email, Bname, token, special, date) {
+function insertData(Email, Bname, special, date) {
     return __awaiter(this, void 0, void 0, function* () {
-        const insertQuery = `INSERT INTO ${process.env.TABLE}(${process.env.PRI}, ${process.env.Token},${process.env.Name},${process.env.Unique},${process.env.Date}) VALUES (?, ?, ?,?,?);`;
+        const insertQuery = `INSERT INTO ${process.env.TABLE}(${process.env.PRI}, ${process.env.Name},${process.env.Unique},${process.env.Date}) VALUES (?, ?, ?,?);`;
         try {
-            const result = yield queryAsync(insertQuery, [Email, token, Bname, special, date]);
+            const result = yield queryAsync(insertQuery, [Email, Bname, special, date]);
             console.log('Data inserted successfully:', result);
         }
         catch (error) {
@@ -73,3 +73,17 @@ function generateExpirationTime(minutes) {
     return now;
 }
 exports.generateExpirationTime = generateExpirationTime;
+function findUser(email) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const query = `SELECT ${process.env.PRI} FROM ${process.env.TABLE} WHERE Email = ?`;
+        try {
+            const result = yield queryAsync(query, [email]);
+            return result;
+        }
+        catch (error) {
+            console.error('Error finding user:', error.message);
+            throw new Error(error);
+        }
+    });
+}
+exports.findUser = findUser;
