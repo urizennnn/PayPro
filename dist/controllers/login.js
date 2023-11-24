@@ -10,6 +10,22 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.loginUser = void 0;
+const helper_1 = require("../utils/helper");
 const loginUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { Email, Password } = req.body;
+        const user = yield (0, helper_1.findUser)(Email);
+        if (!user) {
+            res.status(400).json({ 'success': false, 'message': "User does not exist" });
+        }
+        const check = yield (0, helper_1.LoginUser)(Email);
+        if (check === Password) {
+            res.status(200).json({ 'success': true, 'message': "User logged In" });
+        }
+    }
+    catch (error) {
+        console.error('Error signing up user:', error);
+        res.status(500).json({ success: false, error: error.message });
+    }
 });
 exports.loginUser = loginUser;

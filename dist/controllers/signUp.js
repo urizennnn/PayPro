@@ -14,7 +14,7 @@ const helper_1 = require("../utils/helper");
 const OtpModel_1 = require("../Models/OtpModel");
 const SignUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { Email, BName, Password } = req.query;
+        const { Email, BName, Password } = req.body;
         console.log(Email, BName, Password);
         const otp = (0, helper_1.generateOTP)();
         const expiration = (0, helper_1.generateExpirationTime)(15);

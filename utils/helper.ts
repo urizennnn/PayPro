@@ -80,3 +80,15 @@ try{
 }
 
 }
+
+export async function LoginUser(email :string){
+const query = `select ${process.env.TABLE}.${process.env.Unique} from ${process.env.TABLE} where ${process.env.TABLE}.${process.env.PRI} = ? `
+
+try{
+    const result = await queryAsync(query,[email])
+    return result
+}catch(error:any){
+      console.error('Error finding user:', error.message);
+        throw new Error(error);
+}
+}
