@@ -19,7 +19,7 @@ const verifyUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         if ((find === null || find === void 0 ? void 0 : find.otp.toString()) === otp && new Date() < new Date(find === null || find === void 0 ? void 0 : find.expiresIn)) {
             const user = yield (0, helper_1.findUser)(Email);
             if (user) {
-                user.isVerified = true;
+                yield (0, helper_1.updateUser)(Email);
                 try {
                     yield Promise.all([OtpModel_1.OtpModel.findOneAndDelete({ email: Email })]);
                     res.status(200).json({ success: true, message: "Email verified" });

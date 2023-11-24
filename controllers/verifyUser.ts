@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { OtpModel } from '../Models/OtpModel';
-import { findUser } from '../utils/helper';
+import { findUser ,updateUser} from '../utils/helper';
+
 
 export const verifyUser = async (req: Request, res: Response) => {
     try {
@@ -11,7 +12,7 @@ export const verifyUser = async (req: Request, res: Response) => {
             const user: any = await findUser(Email);
 
             if (user) {
-                user.isVerified = true;
+               await updateUser(Email)
                 
                 try {
                     await Promise.all([OtpModel.findOneAndDelete({ email: Email })]);
