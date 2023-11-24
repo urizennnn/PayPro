@@ -14,19 +14,17 @@ const helper_1 = require("../utils/helper");
 const jwt_1 = require("../utils/jwt");
 const loginUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { Email, Password } = req.params;
+        const { Email, Password } = req.body;
         const user = yield (0, helper_1.findUser)(Email);
         if (!user) {
             return res.status(400).json({ success: false, message: "User does not exist" });
         }
-        const refreshtoken = (0, helper_1.generateRefreshToken)();
+        const refreshToken = (0, helper_1.generateRefreshToken)();
         const storedPassword = yield (0, helper_1.LoginUser)(Email);
-        const payload = {
-            Email, Password
-        };
+        const payload = { Email, Password };
         console.log({ SQL: user, SQLP: storedPassword, HTTP: Email, HTTPP: Password });
         if (storedPassword === Password) {
-            (0, jwt_1.cookies)(res, payload, refreshtoken);
+            (0, jwt_1.cookies)(res, payload, refreshToken);
             return res.status(200).json({ success: true, message: "User logged in", user: user });
         }
         else {

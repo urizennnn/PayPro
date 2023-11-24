@@ -7,5 +7,5 @@ const login_1 = require("../controllers/login");
 const router = (0, express_1.Router)();
 router.post('/SignUp', signUp_1.SignUser);
 router.post('/verifyEmail/:otp/:Email', verifyUser_1.verifyUser);
-router.post('/login/:Email/:Password', login_1.loginUser);
+router.post('/login', login_1.loginUser);
 exports.default = router;

@@ -7,6 +7,6 @@ const router = Router()
 
 router.post('/SignUp',SignUser)
 router.post('/verifyEmail/:otp/:Email',verifyUser)
-router.post('/login/:Email/:Password',loginUser)
+router.post('/login',loginUser)
 
 export default router
