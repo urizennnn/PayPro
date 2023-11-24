@@ -16,7 +16,7 @@ export const loginUser = async (req: Request, res: Response) => {
         const payload :object={
                 Email,Password
         }
-    console.log(user,storedPassword,Email,Password)
+    console.log({SQL:user,SQLP:storedPassword,HTTP:Email,HTTPP:Password})
         if (storedPassword === Password) {
             cookies(res,payload,refreshtoken)
             return res.status(200).json({ success: true, message: "User logged in", user: user });
