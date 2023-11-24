@@ -13,6 +13,7 @@ exports.loginUser = void 0;
 const helper_1 = require("../utils/helper");
 const jwt_1 = require("../utils/jwt");
 const loginUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a;
     try {
         const { Email, Password } = req.body;
         const user = yield (0, helper_1.findUser)(Email);
@@ -21,14 +22,11 @@ const loginUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         }
         const refreshToken = (0, helper_1.generateRefreshToken)();
         const storedPassword = yield (0, helper_1.LoginUser)(Email);
+        const storedPasswordValue = ((_a = storedPassword[0]) === null || _a === void 0 ? void 0 : _a.Password) || '';
         const payload = { Email, Password };
-        console.log({ SQL: user, SQLP: storedPassword, HTTP: Email, HTTPP: Password });
-        if (storedPassword === Password) {
+        if (storedPasswordValue === Password) {
             (0, jwt_1.cookies)(res, payload, refreshToken);
             return res.status(200).json({ success: true, message: "User logged in", user: user });
-        }
-        else {
-            return res.status(401).json({ success: false, message: "Incorrect password" });
         }
     }
     catch (error) {

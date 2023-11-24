@@ -14,16 +14,15 @@ export const loginUser = async (req: Request, res: Response) => {
 
         const refreshToken = generateRefreshToken();
         const storedPassword: any = await LoginUser(Email);
+        const storedPasswordValue = storedPassword[0]?.Password || ''
         const payload: object = { Email, Password };
 
-        console.log({ SQL: user, SQLP: storedPassword, HTTP: Email, HTTPP: Password });
+       
 
-        if (storedPassword === Password) {
+        if (storedPasswordValue === Password) {
             cookies(res, payload, refreshToken);
             return res.status(200).json({ success: true, message: "User logged in", user: user });
-        } else {
-            return res.status(401).json({ success: false, message: "Incorrect password" });
-        }
+        } 
     } catch (error: any) {
         console.error('Error logging in user:', error);
         res.status(500).json({ success: false, error: error.message });

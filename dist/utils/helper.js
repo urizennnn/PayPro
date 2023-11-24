@@ -75,7 +75,7 @@ function generateExpirationTime(minutes) {
 exports.generateExpirationTime = generateExpirationTime;
 function findUser(email) {
     return __awaiter(this, void 0, void 0, function* () {
-        const query = `SELECT ${process.env.PRI} FROM ${process.env.TABLE} WHERE ${process.env.PRI} = ?`;
+        const query = `SELECT * FROM ${process.env.TABLE} WHERE ${process.env.PRI} = ?`;
         try {
             const result = yield queryAsync(query, [email]);
             return result;
