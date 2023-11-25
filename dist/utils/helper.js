@@ -47,7 +47,7 @@ function insertData(Email, Bname, special, date, token, fName, lName, country, t
     return __awaiter(this, void 0, void 0, function* () {
         const insertQuery = `INSERT INTO ${process.env.TABLE}(${process.env.PRI}, ${process.env.Name},${process.env.Unique},${process.env.Date},${process.env.Token},${process.env.fName},${process.env.lName},${process.env.type},${process.env.country}) VALUES (?, ?, ?,?,?,?,?,?,?);`;
         try {
-            const result = yield queryAsync(insertQuery, [Email, Bname, special, date, token, fName, lName, type]);
+            const result = yield queryAsync(insertQuery, [Email, Bname, special, date, token, fName, lName, type, country]);
             console.log('Data inserted successfully:', result);
         }
         catch (error) {
