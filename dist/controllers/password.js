@@ -9,10 +9,11 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.resendOTP = exports.updatePassword = exports.verifyOTP = exports.forgotPassword = void 0;
+exports.resendOTP = exports.updatePassword = exports.verifyOTP = exports.forgotPass = void 0;
 const helper_1 = require("../utils/helper");
 const OtpModel_1 = require("../Models/OtpModel");
-function forgotPassword(req, res) {
+const mail_1 = require("../mail");
+function forgotPass(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const { Email } = req.body;
@@ -22,7 +23,7 @@ function forgotPassword(req, res) {
             const user = yield (0, helper_1.findUser)(Email);
             if (user) {
                 const otp = (0, helper_1.generateOTP)();
-                yield OtpModel_1.OtpModel.create({ email: Email, otp, expiresIn: 15 });
+                yield Promise.all([OtpModel_1.OtpModel.create({ email: Email, otp, expiresIn: 15 }), (0, mail_1.forgotPassword)(Email, otp)]);
                 return res.status(200).json({ success: true, message: "Successfully sent OTP" });
             }
             else {
@@ -35,7 +36,7 @@ function forgotPassword(req, res) {
         }
     });
 }
-exports.forgotPassword = forgotPassword;
+exports.forgotPass = forgotPass;
 function verifyOTP(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
@@ -91,7 +92,7 @@ function resendOTP(req, res) {
                 yield OtpModel_1.OtpModel.findOneAndDelete({ email: Email });
             }
             const otp = (0, helper_1.generateOTP)();
-            yield OtpModel_1.OtpModel.create({ email: Email, otp, expiresIn: 15 });
+            yield Promise.all([OtpModel_1.OtpModel.create({ email: Email, otp, expiresIn: 15 }), (0, mail_1.verificationEmail)(Email, otp)]);
             return res.status(200).json({ success: true, message: "Sent" });
         }
         catch (error) {

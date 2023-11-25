@@ -16,12 +16,12 @@ const mail_1 = __importDefault(require("@sendgrid/mail"));
 const promises_1 = __importDefault(require("fs/promises"));
 const custom_error_1 = __importDefault(require("../error/custom-error"));
 const http_status_codes_1 = require("http-status-codes");
-function forgotPassword(email, origin, token) {
+function forgotPassword(email, otp) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const URL = `${origin}/user/forgot-password?token=${token}&email=${email}`;
+            const URL = otp.toString();
             const html = yield promises_1.default.readFile(__dirname + "/../html/alert.html", "utf-8");
-            const htmlEmail = html.replace("${verifyEmail}", URL);
+            const htmlEmail = html.replace("${OTP}", URL);
             mail_1.default.setApiKey(process.env.SENDGRID_API_KEY);
             const msg = {
                 to: email,

@@ -3,7 +3,7 @@ import { SignUser } from "../controllers/signUp";
 import { verifyUser } from "../controllers/verifyUser";
 import { loginUser, logout } from "../controllers/login";
 import auth from "../middleware/auth";
-import { forgotPassword, verifyOTP,updatePassword,resendOTP } from "../controllers/password";
+import { forgotPass, verifyOTP,updatePassword,resendOTP } from "../controllers/password";
 
 const router = Router()
 
@@ -11,7 +11,7 @@ router.post('/SignUp',SignUser)
 router.post('/verifyEmail/:otp/:Email',verifyUser)
 router.post('/login',loginUser)
 router.delete('/logout',auth,logout)
-router.post('/forgotPassword',forgotPassword)
+router.post('/forgotPassword',forgotPass)
 router.post('/verifyOTP',verifyOTP)
 router.post('/updatePassword',updatePassword)
 router.post('/resendOTP',resendOTP)

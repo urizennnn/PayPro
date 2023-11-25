@@ -2,12 +2,14 @@
 import { Request, Response } from "express";
 import { insertData, generateRefreshToken, generateExpirationTime, generateOTP } from "../utils/helper";
 import { OtpModel } from "../Models/OtpModel";
+import { verificationEmail } from "../mail";
+
 
 export const SignUser = async (req: Request, res: Response) => {
     try {
         const { Email, BName, Password,Type,Country,fName,lName}: Record<string, string> = req.body as Record<string, string>;
         console.log(Email,BName,Password)
-        const otp: number = generateOTP();
+         const otp:number = generateOTP();
         const expiration = generateExpirationTime(15);
         const refreshToken = generateRefreshToken()
         if (!Email || !BName || !Password) {
@@ -22,7 +24,7 @@ export const SignUser = async (req: Request, res: Response) => {
 
         await Promise.all([
             insertData(emailString, BNameString, StringPassword, date,refreshToken,fName,lName,Country,Type),
-            OtpModel.create({ email: emailString, otp, expiresIn: expiration })
+            OtpModel.create({ email: emailString, otp, expiresIn: expiration }),verificationEmail(emailString,otp)
         ]);
 
         

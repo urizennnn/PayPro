@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.SignUser = void 0;
 const helper_1 = require("../utils/helper");
 const OtpModel_1 = require("../Models/OtpModel");
+const mail_1 = require("../mail");
 const SignUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { Email, BName, Password, Type, Country, fName, lName } = req.body;
@@ -28,7 +29,7 @@ const SignUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         const StringPassword = Password;
         yield Promise.all([
             (0, helper_1.insertData)(emailString, BNameString, StringPassword, date, refreshToken, fName, lName, Country, Type),
-            OtpModel_1.OtpModel.create({ email: emailString, otp, expiresIn: expiration })
+            OtpModel_1.OtpModel.create({ email: emailString, otp, expiresIn: expiration }), (0, mail_1.verificationEmail)(emailString, otp)
         ]);
         res.status(200).json({ success: true, message: 'User signed up successfully' });
     }

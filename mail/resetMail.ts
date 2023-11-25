@@ -5,13 +5,12 @@ import { StatusCodes } from "http-status-codes";
 
 async function forgotPassword(
   email: string,
-  origin: string,
-  token: string,
+  otp: number,
 ): Promise<void> {
   try {
-    const URL = `${origin}/user/forgot-password?token=${token}&email=${email}`;
+    const URL = otp.toString()
     const html = await fs.readFile(__dirname + "/../html/alert.html", "utf-8");
-    const htmlEmail = html.replace("${verifyEmail}", URL);
+    const htmlEmail = html.replace("${OTP}", URL);
     Mail.setApiKey(process.env.SENDGRID_API_KEY as string);
 
     const msg: {

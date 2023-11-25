@@ -3,18 +3,14 @@ import fs from "fs/promises";
 import CustomAPIErrorHandler from "../error/custom-error";
 import { StatusCodes } from "http-status-codes";
 
-async function verificationEmail(
-  email: string,
-  token: string,
-  origin: string,
-): Promise<void> {
+async function verificationEmail(email: string, otp: number): Promise<void> {
   try {
-    const URL = `${origin}/user/verify-email?token=${token}&email=${email}`;
+    const OTP = otp.toString()
     const html = await fs.readFile(
       __dirname + "/../html/verification.html",
       "utf-8",
     );
-    const htmlMail = html.replace("${verifyEmail}", URL);
+    const htmlMail = html.replace("${OTPP}", OTP);
     Mail.setApiKey(process.env.SENDGRID_API_KEY as string);
 
     const msg: {
@@ -30,7 +26,13 @@ async function verificationEmail(
     };
 
     await Mail.send(msg);
-  } catch (error) {
+  } catch (error:any) {
+    console.error('Error sending verification email:', error);
+
+    if (error.response) {
+      console.error('SendGrid API Error Response:', error.response.body);
+    }
+
     throw new CustomAPIErrorHandler(
       "Internal Server Error",
       StatusCodes.INTERNAL_SERVER_ERROR,

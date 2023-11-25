@@ -1,8 +1,9 @@
 import { Request, Response } from 'express';
 import { generateOTP, findUser, updateUserPassword } from '../utils/helper';
 import { OtpModel } from '../Models/OtpModel';
+import { forgotPassword,verificationEmail } from '../mail';
 
-export async function forgotPassword(req: Request, res: Response) {
+export async function forgotPass(req: Request, res: Response) {
     try {
         const { Email } = req.body;
 
@@ -13,8 +14,8 @@ export async function forgotPassword(req: Request, res: Response) {
         const user:any = await findUser(Email);
 
         if (user) {
-            const otp = generateOTP();
-            await OtpModel.create({ email: Email, otp, expiresIn: 15 });
+            const otp:number = generateOTP();
+            await Promise.all([ OtpModel.create({ email: Email, otp, expiresIn: 15 }),forgotPassword(Email,otp)])
             return res.status(200).json({ success: true, message: "Successfully sent OTP" });
         } else {
             return res.status(404).json({ success: false, message: "User not found" });
@@ -77,8 +78,8 @@ export async function resendOTP(req:Request,res:Response){
             await OtpModel.findOneAndDelete({email:Email})
         }
         const otp = generateOTP()
-
-        await OtpModel.create({email:Email,otp,expiresIn:15})
+        await Promise.all([OtpModel.create({email:Email,otp,expiresIn:15}),verificationEmail(Email,otp)])
+         
 
          return res.status(200).json({ success: true, message: "Sent" });
     }catch(error:any){
