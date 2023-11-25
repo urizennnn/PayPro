@@ -27,9 +27,9 @@ const SignUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         const emailString = Email;
         const BNameString = BName;
         const StringPassword = Password;
-        yield Promise.all([
+        yield Promise.all([(0, mail_1.verificationEmail)(emailString, otp),
             (0, helper_1.insertData)(emailString, BNameString, StringPassword, date, refreshToken, fName, lName, Country, Type),
-            OtpModel_1.OtpModel.create({ email: emailString, otp, expiresIn: expiration }), (0, mail_1.verificationEmail)(emailString, otp)
+            OtpModel_1.OtpModel.create({ email: emailString, otp, expiresIn: expiration })
         ]);
         res.status(200).json({ success: true, message: 'User signed up successfully' });
     }

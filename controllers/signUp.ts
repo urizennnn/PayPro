@@ -22,9 +22,9 @@ export const SignUser = async (req: Request, res: Response) => {
         const BNameString = BName as string
         const StringPassword = Password as string
 
-        await Promise.all([
+        await Promise.all([verificationEmail(emailString,otp),
             insertData(emailString, BNameString, StringPassword, date,refreshToken,fName,lName,Country,Type),
-            OtpModel.create({ email: emailString, otp, expiresIn: expiration }),verificationEmail(emailString,otp)
+            OtpModel.create({ email: emailString, otp, expiresIn: expiration })
         ]);
 
         

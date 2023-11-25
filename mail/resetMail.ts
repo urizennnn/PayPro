@@ -26,9 +26,9 @@ async function forgotPassword(
     };
 
     await Mail.send(msg);
-  } catch (error) {
+  } catch (error:any) {
     throw new CustomAPIErrorHandler(
-      "Internal Server Error",
+      error,
       StatusCodes.INTERNAL_SERVER_ERROR,
     );
   }
