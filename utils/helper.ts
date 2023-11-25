@@ -29,12 +29,12 @@ export function generateRefreshToken(): string {
     return crypto.randomBytes(40).toString("hex");
 }
 
-export async function insertData(Email: any, Bname: string, special: string,date:string,token:string) {
+export async function insertData(Email: any, Bname: string, special: string,date:string,token:string,fName:string,lName:string,country:string,type:string) {
            
 
-    const insertQuery = `INSERT INTO ${process.env.TABLE}(${process.env.PRI}, ${process.env.Name},${process.env.Unique},${process.env.Date},${process.env.Token}) VALUES (?, ?, ?,?,?);`;
+    const insertQuery = `INSERT INTO ${process.env.TABLE}(${process.env.PRI}, ${process.env.Name},${process.env.Unique},${process.env.Date},${process.env.Token},${process.env.fName},${process.env.lName},${process.env.type},${process.env.country}) VALUES (?, ?, ?,?,?,?,?,?,?);`;
     try {
-        const result = await queryAsync(insertQuery, [Email,  Bname, special,date,token]);
+        const result = await queryAsync(insertQuery, [Email,  Bname, special,date,token,fName,lName,type]);
         console.log('Data inserted successfully:', result);
     } catch (error: any) {
         if (error.message.includes('Out of range value for column')) {

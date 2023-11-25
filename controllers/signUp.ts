@@ -5,7 +5,7 @@ import { OtpModel } from "../Models/OtpModel";
 
 export const SignUser = async (req: Request, res: Response) => {
     try {
-        const { Email, BName, Password }: Record<string, string> = req.body as Record<string, string>;
+        const { Email, BName, Password,Type,Country,fName,lName}: Record<string, string> = req.body as Record<string, string>;
         console.log(Email,BName,Password)
         const otp: number = generateOTP();
         const expiration = generateExpirationTime(15);
@@ -21,7 +21,7 @@ export const SignUser = async (req: Request, res: Response) => {
         const StringPassword = Password as string
 
         await Promise.all([
-            insertData(emailString, BNameString, StringPassword, date,refreshToken),
+            insertData(emailString, BNameString, StringPassword, date,refreshToken,fName,lName,Country,Type),
             OtpModel.create({ email: emailString, otp, expiresIn: expiration })
         ]);
 

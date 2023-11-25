@@ -14,7 +14,7 @@ const helper_1 = require("../utils/helper");
 const OtpModel_1 = require("../Models/OtpModel");
 const SignUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { Email, BName, Password } = req.body;
+        const { Email, BName, Password, Type, Country, fName, lName } = req.body;
         console.log(Email, BName, Password);
         const otp = (0, helper_1.generateOTP)();
         const expiration = (0, helper_1.generateExpirationTime)(15);
@@ -27,7 +27,7 @@ const SignUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         const BNameString = BName;
         const StringPassword = Password;
         yield Promise.all([
-            (0, helper_1.insertData)(emailString, BNameString, StringPassword, date, refreshToken),
+            (0, helper_1.insertData)(emailString, BNameString, StringPassword, date, refreshToken, fName, lName, Country, Type),
             OtpModel_1.OtpModel.create({ email: emailString, otp, expiresIn: expiration })
         ]);
         res.status(200).json({ success: true, message: 'User signed up successfully' });
