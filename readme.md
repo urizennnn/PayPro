@@ -85,3 +85,12 @@ POST:https://paypro-r94x.onrender.com/user/updatePassword
 
 
 ```
+
+## Resend OTP
+```
+POST :https://paypro-r94x.onrender.com/user/resendOTP
+
+{
+    "Email":""
+}
+```

@@ -17,4 +17,5 @@ router.delete('/logout', auth_1.default, login_1.logout);
 router.post('/forgotPassword', password_1.forgotPassword);
 router.post('/verifyOTP', password_1.verifyOTP);
 router.post('/updatePassword', password_1.updatePassword);
+router.post('/resendOTP', password_1.resendOTP);
 exports.default = router;

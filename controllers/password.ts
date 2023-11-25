@@ -67,3 +67,22 @@ export async function updatePassword(req: Request, res: Response) {
         res.status(500).json({ success: false, error: error.message });
     }
 }
+
+
+export async function resendOTP(req:Request,res:Response){
+    try{
+        const {Email} = req.body
+        const del = await OtpModel.findOne({email:Email})
+        if(del){
+            await OtpModel.findOneAndDelete({email:Email})
+        }
+        const otp = generateOTP()
+
+        await OtpModel.create({email:Email,otp,expiresIn:15})
+
+         return res.status(200).json({ success: true, message: "Sent" });
+    }catch(error:any){
+        console.error('Error in updatePassword:', error);
+        res.status(500).json({ success: false, error: error.message });
+    }
+}

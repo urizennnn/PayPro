@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updatePassword = exports.verifyOTP = exports.forgotPassword = void 0;
+exports.resendOTP = exports.updatePassword = exports.verifyOTP = exports.forgotPassword = void 0;
 const helper_1 = require("../utils/helper");
 const OtpModel_1 = require("../Models/OtpModel");
 function forgotPassword(req, res) {
@@ -82,3 +82,22 @@ function updatePassword(req, res) {
     });
 }
 exports.updatePassword = updatePassword;
+function resendOTP(req, res) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const { Email } = req.body;
+            const del = yield OtpModel_1.OtpModel.findOne({ email: Email });
+            if (del) {
+                yield OtpModel_1.OtpModel.findOneAndDelete({ email: Email });
+            }
+            const otp = (0, helper_1.generateOTP)();
+            yield OtpModel_1.OtpModel.create({ email: Email, otp, expiresIn: 15 });
+            return res.status(200).json({ success: true, message: "Sent" });
+        }
+        catch (error) {
+            console.error('Error in updatePassword:', error);
+            res.status(500).json({ success: false, error: error.message });
+        }
+    });
+}
+exports.resendOTP = resendOTP;
