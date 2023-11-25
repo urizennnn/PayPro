@@ -16,9 +16,9 @@ export const SignUser = async (req: Request, res: Response) => {
 
         const date: string = new Date().toISOString().split('T')[0].replace(/-/g, '/');
         
-        const emailString = Email[0]
-        const BNameString = BName[0]
-        const StringPassword = Password[0]
+        const emailString = Email as string
+        const BNameString = BName as string
+        const StringPassword = Password as string
 
         await Promise.all([
             insertData(emailString, BNameString, StringPassword, date,refreshToken),

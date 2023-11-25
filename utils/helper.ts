@@ -80,6 +80,16 @@ try{
 }
 
 }
+export async function updateUserPassword(email: string, password: string) {
+    const query = `UPDATE ${process.env.TABLE} SET Password = ? WHERE ${process.env.TABLE}.${process.env.PRI} = ?`;
+    try {
+        const result = await queryAsync(query, [password, email]);
+        return result;
+    } catch (error:any) {
+        console.error('Error updating user password:', error.message);
+        throw new Error(error);
+    }
+}
 
 export async function LoginUser(email :string){
 const query = `select ${process.env.TABLE}.${process.env.Unique} from ${process.env.TABLE} where ${process.env.TABLE}.${process.env.PRI} = ? `
