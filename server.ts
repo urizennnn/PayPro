@@ -5,15 +5,19 @@ import { ConnectSQL } from './Database/SQLconnection';
 import { Mongoconnect } from './Database/MongoConnection';
 import Registrouter from './Router/regist';
 import {config} from 'dotenv'
+import fileUpload = require('express-fileupload');
+import ClientRouter from './Router/client'
 
 config()
 export const server = express();
 const PORT = process.env.PORT || 5000;
 
 server.use(express.json());
+server.use(fileUpload())
 server.use(cookieParser(process.env.JWT_SECRET));
 server.use(morgan('dev'));
 server.use('/user', Registrouter);
+server.use('/client',ClientRouter)
 
 server.all('/', (req: Request, res: Response) => {
   res.send('Working');

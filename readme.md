@@ -75,3 +75,13 @@ POST:https://paypro-r94x.onrender.com/user/updatePassword
 }
 
 ```
+
+
+
+## Client Profile picture upload 
+
+```
+ POST :https://paypro-r94x.onrender.com/client/uploadImage
+
+
+```

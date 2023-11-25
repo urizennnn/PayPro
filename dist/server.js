@@ -20,13 +20,17 @@ const SQLconnection_1 = require("./Database/SQLconnection");
 const MongoConnection_1 = require("./Database/MongoConnection");
 const regist_1 = __importDefault(require("./Router/regist"));
 const dotenv_1 = require("dotenv");
+const fileUpload = require("express-fileupload");
+const client_1 = __importDefault(require("./Router/client"));
 (0, dotenv_1.config)();
 exports.server = (0, express_1.default)();
 const PORT = process.env.PORT || 5000;
 exports.server.use(express_1.default.json());
+exports.server.use(fileUpload());
 exports.server.use((0, cookie_parser_1.default)(process.env.JWT_SECRET));
 exports.server.use((0, morgan_1.default)('dev'));
 exports.server.use('/user', regist_1.default);
+exports.server.use('/client', client_1.default);
 exports.server.all('/', (req, res) => {
     res.send('Working');
 });
