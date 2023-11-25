@@ -7,12 +7,14 @@ import Registrouter from './Router/regist';
 import {config} from 'dotenv'
 import fileUpload = require('express-fileupload');
 import ClientRouter from './Router/client'
+import cors from 'cors'
 
 config()
 export const server = express();
 const PORT = process.env.PORT || 5000;
 
 server.use(express.json());
+server.use(cors())
 server.use(fileUpload())
 server.use(cookieParser(process.env.JWT_SECRET));
 server.use(morgan('dev'));
