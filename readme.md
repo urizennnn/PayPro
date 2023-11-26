@@ -2,7 +2,7 @@
 
 ### Sign Up using req.body
 ```
-POST :https://paypro-r94x.onrender.com/user/SignUp
+POST :https://paypro-laxl.onrender.com/user/SignUp
 
 
 
@@ -21,7 +21,7 @@ POST :https://paypro-r94x.onrender.com/user/SignUp
 ### Verify Otp after signing up using params
 
 ```
-POST:https://paypro-r94x.onrender.com/user/verifyEmail/:OTP/:Email
+POST:https://paypro-laxl.onrender.com/user/verifyEmail/:OTP/:Email
 
 
 ```
@@ -30,7 +30,7 @@ POST:https://paypro-r94x.onrender.com/user/verifyEmail/:OTP/:Email
 ### Login User
 
 ```
-POST : https://paypro-r94x.onrender.com/user/login
+POST : https://paypro-laxl.onrender.com/user/login
 {
     "Email":"",
     "Password":""
@@ -43,7 +43,7 @@ POST : https://paypro-r94x.onrender.com/user/login
 ### Logout User
 
 ```
-DELETE: https://paypro-r94x.onrender.com/user/logout
+DELETE: https://paypro-laxl.onrender.com/user/logout
 
 ```
 
@@ -51,7 +51,7 @@ DELETE: https://paypro-r94x.onrender.com/user/logout
 
 ## verify the user first
 ```
-POST:https://paypro-r94x.onrender.com/user/forgotPassword
+POST:https://paypro-laxl.onrender.com/user/forgotPassword
 
 {
     "Email:""
@@ -60,7 +60,7 @@ POST:https://paypro-r94x.onrender.com/user/forgotPassword
 
 ## then verify the otp sent
 ```
-POST:https://paypro-r94x.onrender.com/user/verifyOTP
+POST:https://paypro-laxl.onrender.com/user/verifyOTP
 {
     "Email":"",
     "otp":""
@@ -68,7 +68,7 @@ POST:https://paypro-r94x.onrender.com/user/verifyOTP
 ```
 ## then update password
 ```
-POST:https://paypro-r94x.onrender.com/user/updatePassword
+POST:https://paypro-laxl.onrender.com/user/updatePassword
 {
     "Email:"",
     "Password":""
@@ -82,7 +82,7 @@ POST:https://paypro-r94x.onrender.com/user/updatePassword
 
 ## Resend OTP
 ```
-POST :https://paypro-r94x.onrender.com/user/resendOTP
+POST :https://paypro-laxl.onrender.com/user/resendOTP
 
 {
     "Email":""
@@ -97,20 +97,22 @@ POST :https://paypro-r94x.onrender.com/user/resendOTP
 ## Client Profile picture upload 
 
 ```
- POST :https://paypro-r94x.onrender.com/client/uploadImage
+ POST :https://paypro-laxl.onrender.com/client/uploadImage
 returns a string store the string somewhere it will be used for the next operation
 
 ```
 
 ### Client Details 
 ```
+POST :https://paypro-laxl.onrender.com/client/createClient
+{ fName, lName, Email, Address, Phone, file }
 
 ```
 
 ### Create Invoice pay attention to the types as violation will cause an error
 
 ```
-POST :https://paypro-r94x.onrender.com/client/createInvoice
+POST :https://paypro-laxl.onrender.com/client/createInvoice
 {
     BusinessAddress:string,
     BusinessName:string,

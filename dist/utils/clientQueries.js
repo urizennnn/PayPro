@@ -13,7 +13,7 @@ exports.findClient = exports.uploadClientDetails = void 0;
 const helper_1 = require("./helper");
 function uploadClientDetails(fName, lName, Email, Address, Phone, pfp, date, id) {
     return __awaiter(this, void 0, void 0, function* () {
-        const insertQuery = `INSERT INTO ${process.env.Client_TABLE}(${process.env.PRI_Client}, ${process.env.location},${process.env.Pfp},${process.env.Date_Client},${process.env.Client_FName},${process.env.Client_LName},${process.env.number},${process.env.ID}) VALUES (?, ?, ?,?,?,?,?.?);`;
+        const insertQuery = `INSERT INTO ${process.env.Client_TABLE}(${process.env.PRI_Client}, ${process.env.location},${process.env.Pfp},${process.env.Date_Client},${process.env.Client_FName},${process.env.Client_LName},${process.env.number},${process.env.ID}) VALUES (?, ?, ?, ?, ?, ?, ?, ?);`;
         try {
             const result = yield (0, helper_1.queryAsync)(insertQuery, [Email, Address, pfp, date, fName, lName, Phone, id]);
             console.log('Data inserted successfully:', result);
