@@ -15,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.createClient = void 0;
 const path_1 = __importDefault(require("path"));
 const http_status_codes_1 = require("http-status-codes");
+const fs_1 = require("fs");
 const createClient = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
     try {
@@ -28,8 +29,8 @@ const createClient = (req, res) => __awaiter(void 0, void 0, void 0, function* (
             if (!picture.mimetype.startsWith('image')) {
                 return res.status(http_status_codes_1.StatusCodes.BAD_REQUEST).json({ success: false, message: 'Please upload an image' });
             }
-            const uploadPath = path_1.default.join(__dirname, '../../Profile/pictures/' + picture.name);
-            console.log(picture.name, uploadPath);
+            const uploadPath = path_1.default.join(__dirname, '/../../Profile/pictures', picture.name);
+            yield fs_1.promises.mkdir(path_1.default.dirname(uploadPath), { recursive: true });
             yield picture.mv(uploadPath);
         }
         const pfpName = pictureArray.map(picture => picture.name).join(', ');

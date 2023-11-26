@@ -3,6 +3,7 @@ import path from 'path';
 import { StatusCodes } from 'http-status-codes';
 import { FileArray, UploadedFile } from "express-fileupload";
 import { uploadClientDetails } from "../../utils/clientQueries";
+import { promises as fsPromises } from 'fs';
 
 export const createClient = async (req: Request, res: Response) => {
     try {
@@ -20,8 +21,10 @@ export const createClient = async (req: Request, res: Response) => {
                 return res.status(StatusCodes.BAD_REQUEST).json({ success: false, message: 'Please upload an image' });
             }
 
-            const uploadPath = path.join(__dirname, '../../Profile/pictures/' +  picture.name);
-            console.log(picture.name,uploadPath)
+            const uploadPath = path.join(__dirname, '/../../Profile/pictures', picture.name);
+            
+            await fsPromises.mkdir(path.dirname(uploadPath), { recursive: true });
+
             await picture.mv(uploadPath);
         }
 
@@ -34,4 +37,3 @@ export const createClient = async (req: Request, res: Response) => {
         res.status(error.statusCode || StatusCodes.INTERNAL_SERVER_ERROR).json({ success: false, error: error.message });
     }
 };
-
