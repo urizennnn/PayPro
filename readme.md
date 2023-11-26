@@ -105,7 +105,7 @@ returns a string store the string somewhere it will be used for the next operati
 ### Client Details 
 ```
 POST :https://paypro-laxl.onrender.com/client/createClient
-{ fName, lName, Email, Address, Phone, file }
+{ fName, lName, Email, Address, Phone, file,owner }
 
 ```
 
@@ -133,5 +133,15 @@ POST :https://paypro-laxl.onrender.com/client/createInvoice
 GET:https://paypro-laxl.onrender.com/client/showClients
 {
     "Owner":""
+}
+```
+
+## Dashboard 
+```
+GET  :https://paypro-laxl.onrender.com/user/dashboard
+
+{
+    "Owner":"",
+    "BusinessName":""
 }
 ```

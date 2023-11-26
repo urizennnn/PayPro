@@ -49,3 +49,21 @@ const query=`select * from ${process.env.Client_TABLE} where ${process.env.OWNER
         }
     }
 }
+
+
+
+export async function showClientsCount(owner:string){
+const query=`select count(*) from ${process.env.Client_TABLE} where ${process.env.OWNER} =? `
+     try {
+        const result = await queryAsync(query, [owner]);
+        console.log('Data inserted successfully:', result);
+    } catch (error: any) {
+        if (error.message.includes('Out of range value for column')) {
+            console.error(`Error inserting data: ${error.message}.`);
+            throw new Error('Internal server Error');
+        } else {
+            console.error('Error inserting data:', error.message);
+            throw new Error(error);
+        }
+    }
+}

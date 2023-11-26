@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.showClients = exports.findClient = exports.uploadClientDetails = void 0;
+exports.showClientsCount = exports.showClients = exports.findClient = exports.uploadClientDetails = void 0;
 const helper_1 = require("./helper");
 function uploadClientDetails(fName, lName, Email, Address, Phone, pfp, date, id, owner) {
     return __awaiter(this, void 0, void 0, function* () {
@@ -71,3 +71,23 @@ function showClients(owner) {
     });
 }
 exports.showClients = showClients;
+function showClientsCount(owner) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const query = `select count(*) from ${process.env.Client_TABLE} where ${process.env.OWNER} =? `;
+        try {
+            const result = yield (0, helper_1.queryAsync)(query, [owner]);
+            console.log('Data inserted successfully:', result);
+        }
+        catch (error) {
+            if (error.message.includes('Out of range value for column')) {
+                console.error(`Error inserting data: ${error.message}.`);
+                throw new Error('Internal server Error');
+            }
+            else {
+                console.error('Error inserting data:', error.message);
+                throw new Error(error);
+            }
+        }
+    });
+}
+exports.showClientsCount = showClientsCount;

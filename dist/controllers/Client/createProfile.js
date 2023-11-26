@@ -46,7 +46,7 @@ const createClient = (req, res) => __awaiter(void 0, void 0, void 0, function* (
 exports.createClient = createClient;
 const fileClientDetails = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { fName, lName, Email, Address, Phone, file, owner } = req.body;
-    if (![fName, lName, Email, Address, Phone, file].every((value) => !!value)) {
+    if (![fName, lName, Email, Address, Phone, file, owner].every((value) => !!value)) {
         return res.status(400).json({
             success: false,
             message: 'Incomplete data. Please fill in all fields and try again.'

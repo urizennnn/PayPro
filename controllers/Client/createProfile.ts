@@ -49,7 +49,7 @@ export const createClient = async (req: Request, res: Response) => {
 export const fileClientDetails = async (req: Request, res: Response) => {
     const { fName, lName, Email, Address, Phone, file,owner } = req.body;
 
-    if (![fName, lName, Email, Address, Phone, file].every((value) => !!value)) {
+    if (![fName, lName, Email, Address, Phone, file,owner].every((value) => !!value)) {
         return res.status(400).json({
             success: false,
             message: 'Incomplete data. Please fill in all fields and try again.'

@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createInvoice = void 0;
+exports.showInvoices = exports.createInvoice = void 0;
 const InvoiceModel_1 = require("../../Models/InvoiceModel");
 const clientQueries_1 = require("../../utils/clientQueries");
 const createInvoice = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -44,3 +44,41 @@ const createInvoice = (req, res) => __awaiter(void 0, void 0, void 0, function* 
     }
 });
 exports.createInvoice = createInvoice;
+const showInvoices = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { BusinessName } = req.body;
+        const owner = yield (0, clientQueries_1.showClients)(BusinessName);
+        const exist = yield InvoiceModel_1.InvoiceModel.findOne({ BusinessName });
+        if (!exist) {
+            return res.status(404).json({
+                success: false,
+                message: 'Invoice does not exist for the specified BusinessName'
+            });
+        }
+        const date = new Date().toISOString().split('T')[0].replace(/-/g, '/');
+        if (exist.DueDate <= date) {
+            exist.OverDue = true;
+            yield exist.save();
+        }
+        return res.status(200).json({
+            success: true,
+            message: {
+                ID: owner.ID,
+                ClientName: exist.ClientName,
+                ServiceDescription: exist.ServiceDescription,
+                Date: exist.Date,
+                Paid: exist.Paid,
+                OverDue: exist.OverDue,
+                Price: exist.Amount
+            }
+        });
+    }
+    catch (error) {
+        console.error('Error retrieving invoices:', error);
+        res.status(500).json({
+            success: false,
+            error: 'Internal server error'
+        });
+    }
+});
+exports.showInvoices = showInvoices;

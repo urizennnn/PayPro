@@ -12,5 +12,7 @@ export interface Invoceinterface extends Document{
     Phone:string,
     Date:string
     DueDate:string,
+    Paid:boolean,
+    OverDue:boolean
 
 }

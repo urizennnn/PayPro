@@ -4,6 +4,7 @@ import { verifyUser } from "../controllers/verifyUser";
 import { loginUser, logout } from "../controllers/login";
 import auth from "../middleware/auth";
 import { forgotPass, verifyOTP,updatePassword,resendOTP } from "../controllers/password";
+import { dashboard } from "../controllers/dashboard";
 
 const router = Router()
 
@@ -15,4 +16,5 @@ router.post('/forgotPassword',forgotPass)
 router.post('/verifyOTP',verifyOTP)
 router.post('/updatePassword',updatePassword)
 router.post('/resendOTP',resendOTP)
+router.get('/dashboard',dashboard)
 export default router
