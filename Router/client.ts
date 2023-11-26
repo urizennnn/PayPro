@@ -1,8 +1,8 @@
 import { Router } from "express";
-import { uploadPicture } from "../controllers/Client/createProfile";
+import { createClient } from "../controllers/Client/createProfile";
 
  const router = Router()
 
-router.post('/uploadImage',uploadPicture)
+router.post('/uploadImage',createClient)
 router.post('/')
 export default router

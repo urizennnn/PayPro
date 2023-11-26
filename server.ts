@@ -8,6 +8,12 @@ import {config} from 'dotenv'
 import fileUpload = require('express-fileupload');
 import ClientRouter from './Router/client'
 import cors from 'cors'
+import { v2 as cloudinary } from 'cloudinary';
+cloudinary.config({
+  cloud_name:process.env.CLOUD_NAME,
+  api_key:process.env.API_KEY,
+  api_secret:process.env.API_SECRET
+})
 
 config()
 export const server = express();
@@ -15,7 +21,7 @@ const PORT = process.env.PORT || 5000;
 
 server.use(express.json());
 server.use(cors())
-server.use(fileUpload())
+server.use(fileUpload({useTempFiles:true}))
 server.use(cookieParser(process.env.JWT_SECRET));
 server.use(morgan('dev'));
 server.use('/user', Registrouter);

@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.LoginUser = exports.updateUserPassword = exports.updateUser = exports.findUser = exports.generateExpirationTime = exports.generateOTP = exports.insertData = exports.generateRefreshToken = exports.createVerificationToken = exports.queryAsync = void 0;
+exports.uploadtoCLoud = exports.LoginUser = exports.updateUserPassword = exports.updateUser = exports.findUser = exports.generateExpirationTime = exports.generateOTP = exports.insertData = exports.generateRefreshToken = exports.createVerificationToken = exports.queryAsync = void 0;
 const SQLconnection_1 = require("../Database/SQLconnection");
 const crypto_1 = __importDefault(require("crypto"));
 function queryAsync(sql, values) {
@@ -46,20 +46,6 @@ exports.generateRefreshToken = generateRefreshToken;
 function insertData(Email, Bname, special, date, token, fName, lName, country, type) {
     return __awaiter(this, void 0, void 0, function* () {
         const insertQuery = `INSERT INTO ${process.env.TABLE}(${process.env.PRI}, ${process.env.Name},${process.env.Unique},${process.env.Date},${process.env.Token},${process.env.fName},${process.env.lName},${process.env.type},${process.env.country}) VALUES (?, ?, ?,?,?,?,?,?,?);`;
-        try {
-            const result = yield queryAsync(insertQuery, [Email, Bname, special, date, token, fName, lName, type, country]);
-            console.log('Data inserted successfully:', result);
-        }
-        catch (error) {
-            if (error.message.includes('Out of range value for column')) {
-                console.error(`Error inserting data: ${error.message}.`);
-                throw new Error('Internal server Error');
-            }
-            else {
-                console.error('Error inserting data:', error.message);
-                throw new Error(error);
-            }
-        }
     });
 }
 exports.insertData = insertData;
@@ -129,3 +115,8 @@ function LoginUser(email) {
     });
 }
 exports.LoginUser = LoginUser;
+function uploadtoCLoud() {
+    return __awaiter(this, void 0, void 0, function* () {
+    });
+}
+exports.uploadtoCLoud = uploadtoCLoud;

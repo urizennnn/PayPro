@@ -1,5 +1,7 @@
 import { pool } from "../Database/SQLconnection";
 import crypto from 'crypto';
+import { v2 as cloudinary } from "cloudinary";
+
 
 export function queryAsync(sql: string, values: any[]): Promise<void> {
     return new Promise((resolve, reject) => {
@@ -33,18 +35,7 @@ export async function insertData(Email: any, Bname: string, special: string,date
            
 
     const insertQuery = `INSERT INTO ${process.env.TABLE}(${process.env.PRI}, ${process.env.Name},${process.env.Unique},${process.env.Date},${process.env.Token},${process.env.fName},${process.env.lName},${process.env.type},${process.env.country}) VALUES (?, ?, ?,?,?,?,?,?,?);`;
-    try {
-        const result = await queryAsync(insertQuery, [Email,  Bname, special,date,token,fName,lName,type,country]);
-        console.log('Data inserted successfully:', result);
-    } catch (error: any) {
-        if (error.message.includes('Out of range value for column')) {
-            console.error(`Error inserting data: ${error.message}.`);
-            throw new Error('Internal server Error');
-        } else {
-            console.error('Error inserting data:', error.message);
-            throw new Error(error);
-        }
-    }
+   
 }
 
 export function generateOTP():number {
@@ -101,4 +92,8 @@ try{
       console.error('Error finding user:', error.message);
         throw new Error(error);
 }
+}
+
+export async function uploadtoCLoud(){
+
 }

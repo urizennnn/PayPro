@@ -12,12 +12,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.uploadPicture = void 0;
+exports.createClient = void 0;
 const path_1 = __importDefault(require("path"));
 const http_status_codes_1 = require("http-status-codes");
-const uploadPicture = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const createClient = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
     try {
+        const { fName, lName, Email, Address, Phone } = req.body;
         const pictures = (_a = req.files) === null || _a === void 0 ? void 0 : _a.picture;
         if (!pictures) {
             return res.status(http_status_codes_1.StatusCodes.BAD_REQUEST).json({ success: false, message: 'No picture file uploaded' });
@@ -27,9 +28,12 @@ const uploadPicture = (req, res) => __awaiter(void 0, void 0, void 0, function* 
             if (!picture.mimetype.startsWith('image')) {
                 return res.status(http_status_codes_1.StatusCodes.BAD_REQUEST).json({ success: false, message: 'Please upload an image' });
             }
-            const uploadPath = path_1.default.join(__dirname, '../../Profile/pictures', picture.name);
+            const uploadPath = path_1.default.join(__dirname, '/../../Profile/pictures', picture.name);
             yield picture.mv(uploadPath);
         }
+        const pfpName = pictureArray.map(picture => picture.name).join(', ');
+        const date = new Date().toISOString().split('T')[0].replace(/-/g, '/');
+        // await uploadClientDetails(fName, lName, Email, Address, Phone, pfpName, date);
         res.status(http_status_codes_1.StatusCodes.OK).json({ success: true, message: 'Image(s) uploaded successfully' });
     }
     catch (error) {
@@ -37,4 +41,4 @@ const uploadPicture = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         res.status(error.statusCode || http_status_codes_1.StatusCodes.INTERNAL_SERVER_ERROR).json({ success: false, error: error.message });
     }
 });
-exports.uploadPicture = uploadPicture;
+exports.createClient = createClient;
