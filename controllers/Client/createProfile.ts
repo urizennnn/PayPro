@@ -25,10 +25,9 @@ export const createClient = async (req: Request, res: Response) => {
 
             uploadPath = path.join(__dirname, '/../../Profile/pictures/', picture.name);
 
-            await Promise.all([
-                fsPromises.mkdir(path.dirname(uploadPath), { recursive: true }),
-                picture.mv(uploadPath)
-            ]);
+             
+             await   fsPromises.mkdir(path.dirname(uploadPath), { recursive: true }),
+            await    picture.mv(uploadPath)
         }
 
         

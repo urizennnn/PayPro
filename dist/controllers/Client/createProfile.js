@@ -32,10 +32,8 @@ const createClient = (req, res) => __awaiter(void 0, void 0, void 0, function* (
                 return res.status(http_status_codes_1.StatusCodes.BAD_REQUEST).json({ success: false, message: 'Please upload an image' });
             }
             uploadPath = path_1.default.join(__dirname, '/../../Profile/pictures/', picture.name);
-            yield Promise.all([
-                fs_1.promises.mkdir(path_1.default.dirname(uploadPath), { recursive: true }),
-                picture.mv(uploadPath)
-            ]);
+            yield fs_1.promises.mkdir(path_1.default.dirname(uploadPath), { recursive: true }),
+                yield picture.mv(uploadPath);
         }
         const file = yield (0, helper_1.uploadtoCloud)(uploadPath);
         res.status(http_status_codes_1.StatusCodes.OK).json({ success: true, message: file });
