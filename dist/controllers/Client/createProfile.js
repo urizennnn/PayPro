@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createClient = void 0;
+exports.fileClientDetails = exports.createClient = void 0;
 const path_1 = __importDefault(require("path"));
 const http_status_codes_1 = require("http-status-codes");
 const clientQueries_1 = require("../../utils/clientQueries");
@@ -21,7 +21,6 @@ const helper_1 = require("../../utils/helper");
 const createClient = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
     try {
-        const { fName, lName, Email, Address, Phone } = req.body;
         const pictures = (_a = req.files) === null || _a === void 0 ? void 0 : _a.picture;
         if (!pictures) {
             return res.status(http_status_codes_1.StatusCodes.BAD_REQUEST).json({ success: false, message: 'No picture file uploaded' });
@@ -38,13 +37,8 @@ const createClient = (req, res) => __awaiter(void 0, void 0, void 0, function* (
                 picture.mv(uploadPath)
             ]);
         }
-        const pfpName = pictureArray.map(picture => picture.name).join(', ');
-        const date = new Date().toISOString().split('T')[0].replace(/-/g, '/');
-        yield Promise.all([
-            (0, clientQueries_1.uploadClientDetails)(fName, lName, Email, Address, Phone, pfpName, date),
-            (0, helper_1.uploadtoCloud)(uploadPath)
-        ]);
-        res.status(http_status_codes_1.StatusCodes.OK).json({ success: true, message: 'Image(s) uploaded successfully' });
+        const file = yield (0, helper_1.uploadtoCloud)(uploadPath);
+        res.status(http_status_codes_1.StatusCodes.OK).json({ success: true, message: file });
     }
     catch (error) {
         console.error('Error uploading picture:', error);
@@ -52,3 +46,23 @@ const createClient = (req, res) => __awaiter(void 0, void 0, void 0, function* (
     }
 });
 exports.createClient = createClient;
+const fileClientDetails = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { fName, lName, Email, Address, Phone, file } = req.body;
+    if (![fName, lName, Email, Address, Phone, file].every((value) => !!value)) {
+        return res.status(400).json({
+            success: false,
+            message: 'Incomplete data. Please fill in all fields and try again.'
+        });
+    }
+    const id = '#' + (0, helper_1.generateOTP)();
+    const date = new Date().toISOString().split('T')[0].replace(/-/g, '/');
+    try {
+        yield (0, clientQueries_1.uploadClientDetails)(fName, lName, Email, Address, Phone, file, date, id);
+        res.status(200).json({ success: true, message: 'Client details and file uploaded successfully' });
+    }
+    catch (error) {
+        console.error('Error uploading client details:', error);
+        res.status(error.statusCode || 500).json({ success: false, error: error.message });
+    }
+});
+exports.fileClientDetails = fileClientDetails;

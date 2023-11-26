@@ -2,7 +2,9 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const createProfile_1 = require("../controllers/Client/createProfile");
+const Invoice_1 = require("../controllers/Client/Invoice");
 const router = (0, express_1.Router)();
 router.post('/uploadImage', createProfile_1.createClient);
-router.post('/');
+router.post('/createClient', createProfile_1.fileClientDetails);
+router.post('/createInvoice', Invoice_1.createInvoice);
 exports.default = router;

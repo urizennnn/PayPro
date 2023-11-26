@@ -122,6 +122,7 @@ function uploadtoCloud(path) {
             use_filename: true,
             folder: 'PayProClient'
         });
+        return upload.secure_url;
     });
 }
 exports.uploadtoCloud = uploadtoCloud;

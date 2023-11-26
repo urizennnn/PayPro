@@ -78,13 +78,7 @@ POST:https://paypro-r94x.onrender.com/user/updatePassword
 
 
 
-## Client Profile picture upload 
 
-```
- POST :https://paypro-r94x.onrender.com/client/uploadImage
-
-
-```
 
 ## Resend OTP
 ```
@@ -94,3 +88,41 @@ POST :https://paypro-r94x.onrender.com/user/resendOTP
     "Email":""
 }
 ```
+
+# Client operations
+
+## Create Profile Client
+# Must be followed in this order
+
+## Client Profile picture upload 
+
+```
+ POST :https://paypro-r94x.onrender.com/client/uploadImage
+returns a string store the string somewhere it will be used for the next operation
+
+```
+
+### Client Details 
+```
+
+```
+
+### Create Invoice pay attention to the types as violation will cause an error
+
+```
+POST :https://paypro-r94x.onrender.com/client/createInvoice
+{
+    BusinessAddress:string,
+    BusinessName:string,
+    ServiceDescription:string,
+    Quantity:number,
+    UnitPrice:number,
+    Amount:number,
+    ClientName:string,
+    Email:string,
+    Phone:string,
+    Date:string,
+    DueDate:string
+}
+```
+

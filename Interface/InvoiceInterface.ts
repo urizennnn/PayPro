@@ -1,7 +1,16 @@
 import { Document } from "mongoose";
 
 export interface Invoceinterface extends Document{
-    otp:number,
-    expiresIn:number,
-    email:string
+    BusinessName : string,
+    BusinessAddress:string,
+    ServiceDescription:string,
+    Quantity:number,
+    UnitPrice:number,
+    Amount:number,
+    ClientName:string,
+    Email:string,
+    Phone:string,
+    Date:string
+    DueDate:string,
+
 }

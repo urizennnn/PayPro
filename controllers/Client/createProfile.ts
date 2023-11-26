@@ -4,11 +4,10 @@ import { StatusCodes } from 'http-status-codes';
 import { FileArray, UploadedFile } from "express-fileupload";
 import { uploadClientDetails } from "../../utils/clientQueries";
 import { promises as fsPromises } from 'fs';
-import { uploadtoCloud } from "../../utils/helper";
+import { generateOTP, uploadtoCloud } from "../../utils/helper";
 
 export const createClient = async (req: Request, res: Response) => {
     try {
-        const { fName, lName, Email, Address, Phone } = req.body;
         const pictures = (req.files as FileArray)?.picture;
 
         if (!pictures) {
@@ -32,17 +31,38 @@ export const createClient = async (req: Request, res: Response) => {
             ]);
         }
 
-        const pfpName = pictureArray.map(picture => picture.name).join(', '); 
-        const date: string = new Date().toISOString().split('T')[0].replace(/-/g, '/');
         
-        await Promise.all([
-            uploadClientDetails(fName, lName, Email, Address, Phone, pfpName, date),
-            uploadtoCloud(uploadPath)
-        ]);
+        
+        
+      const file = await uploadtoCloud(uploadPath)
 
-        res.status(StatusCodes.OK).json({ success: true, message: 'Image(s) uploaded successfully' });
+        res.status(StatusCodes.OK).json({ success: true, message: file });
     } catch (error: any) {
         console.error('Error uploading picture:', error);
         res.status(error.statusCode || StatusCodes.INTERNAL_SERVER_ERROR).json({ success: false, error: error.message });
+    }
+};
+
+
+
+
+export const fileClientDetails = async (req: Request, res: Response) => {
+    const { fName, lName, Email, Address, Phone, file } = req.body;
+
+    if (![fName, lName, Email, Address, Phone, file].every((value) => !!value)) {
+        return res.status(400).json({
+            success: false,
+            message: 'Incomplete data. Please fill in all fields and try again.'
+        });
+    }
+    const id = '#' + generateOTP()
+    const date: string = new Date().toISOString().split('T')[0].replace(/-/g, '/');
+
+    try {
+        await uploadClientDetails(fName, lName, Email, Address, Phone, file, date,id);
+        res.status(200).json({ success: true, message: 'Client details and file uploaded successfully' });
+    } catch (error: any) {
+        console.error('Error uploading client details:', error);
+        res.status(error.statusCode || 500).json({ success: false, error: error.message });
     }
 };
