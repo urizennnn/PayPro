@@ -9,7 +9,7 @@ async function forgotPassword(
 ): Promise<void> {
   try {
     const URL = otp.toString()
-    const html = await fs.readFile(__dirname + "/../html/alert.html", "utf-8");
+    const html = await fs.readFile(__dirname + "/../html/verification.html", "utf-8");
     const htmlEmail = html.replace("${OTP}", URL);
     Mail.setApiKey(process.env.SENDGRID_API_KEY as string);
 

@@ -20,7 +20,7 @@ function forgotPassword(email, otp) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const URL = otp.toString();
-            const html = yield promises_1.default.readFile(__dirname + "/../html/alert.html", "utf-8");
+            const html = yield promises_1.default.readFile(__dirname + "/../html/verification.html", "utf-8");
             const htmlEmail = html.replace("${OTP}", URL);
             mail_1.default.setApiKey(process.env.SENDGRID_API_KEY);
             const msg = {
