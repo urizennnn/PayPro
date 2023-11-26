@@ -21,6 +21,7 @@ function forgotPassword(email, otp) {
         try {
             const URL = otp.toString();
             const html = yield promises_1.default.readFile(__dirname + "/../html/verification.html", "utf-8");
+            console.log(html);
             const htmlEmail = html.replace("${OTP}", URL);
             mail_1.default.setApiKey(process.env.SENDGRID_API_KEY);
             const msg = {
