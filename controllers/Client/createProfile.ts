@@ -20,7 +20,7 @@ export const createClient = async (req: Request, res: Response) => {
                 return res.status(StatusCodes.BAD_REQUEST).json({ success: false, message: 'Please upload an image' });
             }
 
-            const uploadPath = path.join(__dirname, '../../Profile/pictures/', picture.name);
+            const uploadPath = path.join(__dirname, '../../Profile/pictures/' +  picture.name);
             await picture.mv(uploadPath);
         }
 
