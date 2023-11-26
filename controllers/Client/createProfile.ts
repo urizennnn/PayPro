@@ -21,6 +21,7 @@ export const createClient = async (req: Request, res: Response) => {
             }
 
             const uploadPath = path.join(__dirname, '../../Profile/pictures/' +  picture.name);
+            console.log(picture.name)
             await picture.mv(uploadPath);
         }
 

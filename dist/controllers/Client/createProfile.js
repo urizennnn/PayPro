@@ -29,6 +29,7 @@ const createClient = (req, res) => __awaiter(void 0, void 0, void 0, function* (
                 return res.status(http_status_codes_1.StatusCodes.BAD_REQUEST).json({ success: false, message: 'Please upload an image' });
             }
             const uploadPath = path_1.default.join(__dirname, '../../Profile/pictures/' + picture.name);
+            console.log(picture.name);
             yield picture.mv(uploadPath);
         }
         const pfpName = pictureArray.map(picture => picture.name).join(', ');
