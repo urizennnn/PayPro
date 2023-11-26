@@ -1,7 +1,7 @@
 import { queryAsync } from './helper'
 
 export async function uploadClientDetails (fName:string,lName:string,Email:string,Address:string,Phone:string,pfp:string,date:string){
-const insertQuery = `INSERT INTO ${process.env.Client_TABLE}(${process.env.PRI}, ${process.env.location},${process.env.Pfp},${process.env.Date},${process.env.fName},${process.env.lName},${process.env.number}) VALUES (?, ?, ?,?,?,?,?);`;
+const insertQuery = `INSERT INTO ${process.env.Client_TABLE}(${process.env.PRI_Client}, ${process.env.location},${process.env.Pfp},${process.env.Date_Client},${process.env.Client_FName},${process.env.Client_LName},${process.env.number}) VALUES (?, ?, ?,?,?,?,?);`;
 
  try {
         const result = await queryAsync(insertQuery, [Email,  Address, pfp,date,fName,lName,Phone]);
