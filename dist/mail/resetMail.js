@@ -14,15 +14,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const mail_1 = __importDefault(require("@sendgrid/mail"));
 const promises_1 = __importDefault(require("fs/promises"));
-const path_1 = __importDefault(require("path"));
 const custom_error_1 = __importDefault(require("../error/custom-error"));
 const http_status_codes_1 = require("http-status-codes");
 function forgotPassword(email, otp) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const URL = otp.toString();
-            const htmlPath = path_1.default.join(__dirname, "../html/verification.html");
-            const html = yield promises_1.default.readFile(htmlPath, "utf-8");
+            const html = yield promises_1.default.readFile(__dirname + "/../html/verification.html", "utf-8");
+            console.log(html);
             const htmlEmail = html.replace("${OTP}", URL);
             mail_1.default.setApiKey(process.env.SENDGRID_API_KEY);
             const msg = {

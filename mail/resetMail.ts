@@ -1,6 +1,5 @@
 import Mail from "@sendgrid/mail";
 import fs from "fs/promises";
-import path from "path";
 import CustomAPIErrorHandler from "../error/custom-error";
 import { StatusCodes } from "http-status-codes";
 
@@ -9,11 +8,10 @@ async function forgotPassword(
   otp: number,
 ): Promise<void> {
   try {
-    const URL = otp.toString();
-    const htmlPath = path.join(__dirname, "../html/verification.html");
-    const html = await fs.readFile(htmlPath, "utf-8");
+    const URL = otp.toString()
+    const html = await fs.readFile(__dirname + "/../html/verification.html", "utf-8");
+    console.log(html)
     const htmlEmail = html.replace("${OTP}", URL);
-
     Mail.setApiKey(process.env.SENDGRID_API_KEY as string);
 
     const msg: {
