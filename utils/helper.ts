@@ -94,6 +94,9 @@ try{
 }
 }
 
-export async function uploadtoCLoud(){
-
+export async function uploadtoCloud(path:string){
+const  upload = await cloudinary.uploader.upload(path,{
+    use_filename:true,
+    folder:'PayProClient'
+})
 }

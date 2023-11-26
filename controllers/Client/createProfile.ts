@@ -4,6 +4,7 @@ import { StatusCodes } from 'http-status-codes';
 import { FileArray, UploadedFile } from "express-fileupload";
 import { uploadClientDetails } from "../../utils/clientQueries";
 import { promises as fsPromises } from 'fs';
+import { uploadtoCloud } from "../../utils/helper";
 
 export const createClient = async (req: Request, res: Response) => {
     try {
@@ -16,21 +17,29 @@ export const createClient = async (req: Request, res: Response) => {
 
         const pictureArray = Array.isArray(pictures) ? pictures : [pictures];
 
+        let uploadPath: string = '';
+
         for (const picture of pictureArray) {
             if (!picture.mimetype.startsWith('image')) {
                 return res.status(StatusCodes.BAD_REQUEST).json({ success: false, message: 'Please upload an image' });
             }
 
-            const uploadPath = path.join(__dirname, '/../../Profile/pictures/', picture.name);
-            
-            await fsPromises.mkdir(path.dirname(uploadPath), { recursive: true });
+            uploadPath = path.join(__dirname, '/../../Profile/pictures/', picture.name);
 
-            await picture.mv(uploadPath);
+            await Promise.all([
+                fsPromises.mkdir(path.dirname(uploadPath), { recursive: true }),
+                picture.mv(uploadPath)
+            ]);
         }
 
         const pfpName = pictureArray.map(picture => picture.name).join(', '); 
         const date: string = new Date().toISOString().split('T')[0].replace(/-/g, '/');
-        // await uploadClientDetails(fName, lName, Email, Address, Phone, pfpName, date);
+        
+        await Promise.all([
+            uploadClientDetails(fName, lName, Email, Address, Phone, pfpName, date),
+            uploadtoCloud(uploadPath)
+        ]);
+
         res.status(StatusCodes.OK).json({ success: true, message: 'Image(s) uploaded successfully' });
     } catch (error: any) {
         console.error('Error uploading picture:', error);

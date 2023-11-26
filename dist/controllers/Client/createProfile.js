@@ -15,7 +15,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.createClient = void 0;
 const path_1 = __importDefault(require("path"));
 const http_status_codes_1 = require("http-status-codes");
+const clientQueries_1 = require("../../utils/clientQueries");
 const fs_1 = require("fs");
+const helper_1 = require("../../utils/helper");
 const createClient = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
     try {
@@ -25,17 +27,23 @@ const createClient = (req, res) => __awaiter(void 0, void 0, void 0, function* (
             return res.status(http_status_codes_1.StatusCodes.BAD_REQUEST).json({ success: false, message: 'No picture file uploaded' });
         }
         const pictureArray = Array.isArray(pictures) ? pictures : [pictures];
+        let uploadPath = '';
         for (const picture of pictureArray) {
             if (!picture.mimetype.startsWith('image')) {
                 return res.status(http_status_codes_1.StatusCodes.BAD_REQUEST).json({ success: false, message: 'Please upload an image' });
             }
-            const uploadPath = path_1.default.join(__dirname, '/../../Profile/pictures/', picture.name);
-            yield fs_1.promises.mkdir(path_1.default.dirname(uploadPath), { recursive: true });
-            yield picture.mv(uploadPath);
+            uploadPath = path_1.default.join(__dirname, '/../../Profile/pictures/', picture.name);
+            yield Promise.all([
+                fs_1.promises.mkdir(path_1.default.dirname(uploadPath), { recursive: true }),
+                picture.mv(uploadPath)
+            ]);
         }
         const pfpName = pictureArray.map(picture => picture.name).join(', ');
         const date = new Date().toISOString().split('T')[0].replace(/-/g, '/');
-        // await uploadClientDetails(fName, lName, Email, Address, Phone, pfpName, date);
+        yield Promise.all([
+            (0, clientQueries_1.uploadClientDetails)(fName, lName, Email, Address, Phone, pfpName, date),
+            (0, helper_1.uploadtoCloud)(uploadPath)
+        ]);
         res.status(http_status_codes_1.StatusCodes.OK).json({ success: true, message: 'Image(s) uploaded successfully' });
     }
     catch (error) {

@@ -12,9 +12,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.uploadtoCLoud = exports.LoginUser = exports.updateUserPassword = exports.updateUser = exports.findUser = exports.generateExpirationTime = exports.generateOTP = exports.insertData = exports.generateRefreshToken = exports.createVerificationToken = exports.queryAsync = void 0;
+exports.uploadtoCloud = exports.LoginUser = exports.updateUserPassword = exports.updateUser = exports.findUser = exports.generateExpirationTime = exports.generateOTP = exports.insertData = exports.generateRefreshToken = exports.createVerificationToken = exports.queryAsync = void 0;
 const SQLconnection_1 = require("../Database/SQLconnection");
 const crypto_1 = __importDefault(require("crypto"));
+const cloudinary_1 = require("cloudinary");
 function queryAsync(sql, values) {
     return new Promise((resolve, reject) => {
         SQLconnection_1.pool.getConnection((err, connection) => {
@@ -115,8 +116,12 @@ function LoginUser(email) {
     });
 }
 exports.LoginUser = LoginUser;
-function uploadtoCLoud() {
+function uploadtoCloud(path) {
     return __awaiter(this, void 0, void 0, function* () {
+        const upload = yield cloudinary_1.v2.uploader.upload(path, {
+            use_filename: true,
+            folder: 'PayProClient'
+        });
     });
 }
-exports.uploadtoCLoud = uploadtoCLoud;
+exports.uploadtoCloud = uploadtoCloud;
