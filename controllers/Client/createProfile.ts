@@ -6,6 +6,7 @@ import { uploadClientDetails } from "../../utils/clientQueries";
 import { promises as fsPromises } from 'fs';
 import { generateOTP, uploadtoCloud } from "../../utils/helper";
 
+
 export const createClient = async (req: Request, res: Response) => {
     try {
         const pictures = (req.files as FileArray)?.picture;
@@ -46,7 +47,7 @@ export const createClient = async (req: Request, res: Response) => {
 
 
 export const fileClientDetails = async (req: Request, res: Response) => {
-    const { fName, lName, Email, Address, Phone, file } = req.body;
+    const { fName, lName, Email, Address, Phone, file,owner } = req.body;
 
     if (![fName, lName, Email, Address, Phone, file].every((value) => !!value)) {
         return res.status(400).json({
@@ -58,7 +59,7 @@ export const fileClientDetails = async (req: Request, res: Response) => {
     const date: string = new Date().toISOString().split('T')[0].replace(/-/g, '/');
 
     try {
-        await uploadClientDetails(fName, lName, Email, Address, Phone, file, date,id);
+        await uploadClientDetails(fName, lName, Email, Address, Phone, file, date,id,owner);
         res.status(200).json({ success: true, message: 'Client details and file uploaded successfully' });
     } catch (error: any) {
         console.error('Error uploading client details:', error);

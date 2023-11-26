@@ -45,7 +45,7 @@ const createClient = (req, res) => __awaiter(void 0, void 0, void 0, function* (
 });
 exports.createClient = createClient;
 const fileClientDetails = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { fName, lName, Email, Address, Phone, file } = req.body;
+    const { fName, lName, Email, Address, Phone, file, owner } = req.body;
     if (![fName, lName, Email, Address, Phone, file].every((value) => !!value)) {
         return res.status(400).json({
             success: false,
@@ -55,7 +55,7 @@ const fileClientDetails = (req, res) => __awaiter(void 0, void 0, void 0, functi
     const id = '#' + (0, helper_1.generateOTP)();
     const date = new Date().toISOString().split('T')[0].replace(/-/g, '/');
     try {
-        yield (0, clientQueries_1.uploadClientDetails)(fName, lName, Email, Address, Phone, file, date, id);
+        yield (0, clientQueries_1.uploadClientDetails)(fName, lName, Email, Address, Phone, file, date, id, owner);
         res.status(200).json({ success: true, message: 'Client details and file uploaded successfully' });
     }
     catch (error) {

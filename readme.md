@@ -128,3 +128,10 @@ POST :https://paypro-laxl.onrender.com/client/createInvoice
 }
 ```
 
+### Show Clients
+```
+GET:https://paypro-laxl.onrender.com/client/showClients
+{
+    "Owner":""
+}
+```
