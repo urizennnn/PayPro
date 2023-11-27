@@ -168,3 +168,10 @@ GET  :https://paypro-laxl.onrender.com/user/dashboard
         "Email":""
 }
 ```
+
+## Use Bot
+```
+{
+    GET::https://paypro-laxl.onrender.com/OpenAi/:prompt
+}
+```
