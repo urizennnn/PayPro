@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updatePayment = exports.Payment = void 0;
+exports.findpayment = exports.updatePayment = exports.Payment = void 0;
 const helper_1 = require("./helper");
 function Payment(BankName, AccountNumber, AccountName, Url, Email) {
     return __awaiter(this, void 0, void 0, function* () {
@@ -62,3 +62,22 @@ function updatePayment(BankName, AccountNumber, AccountName, Url, Email) {
     });
 }
 exports.updatePayment = updatePayment;
+function findpayment(email) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const query = `select * from ${process.env.payment} where  ${process.env.Email_Payment} = ?;`;
+        try {
+            const result = yield (0, helper_1.queryAsync)(query, [email]);
+            console.log('Data updated successfully:', result);
+        }
+        catch (error) {
+            console.error('Error updating data:', error.message);
+            if (error.message.includes('Out of range value for column')) {
+                throw new Error('Internal server Error: Out of range value for column');
+            }
+            else {
+                throw new Error('Internal server error');
+            }
+        }
+    });
+}
+exports.findpayment = findpayment;

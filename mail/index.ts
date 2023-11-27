@@ -4,3 +4,4 @@ export { default as successMail } from "./successMail";
 export { default as verificationEmail } from "./verificationMail";
 export { default as detailsUpdated } from "./detailesChanged";
 export { default as deleted } from "./delete";
+export {default as invoice} from './Invoicemail'

@@ -1,6 +1,8 @@
 import { Request, Response } from "express";
 import { InvoiceModel } from "../../Models/InvoiceModel";
 import { findClient, showClients } from "../../utils/clientQueries";
+import { invoice } from "../../mail";
+
 
 export const createInvoice = async (req: Request, res: Response) => {
     try {
@@ -35,6 +37,19 @@ export const createInvoice = async (req: Request, res: Response) => {
         }
 
         const createClientInvoice = await InvoiceModel.create({ ...req.body });
+await invoice(Email, {
+  BusinessAddress,
+  BusinessName,
+  ServiceDescription,
+  Quantity,
+  UnitPrice,
+  Amount,
+  ClientName,
+  Email,
+  Phone,
+  Date,
+  DueDate
+});
 
         res.status(200).json({
             success: true,

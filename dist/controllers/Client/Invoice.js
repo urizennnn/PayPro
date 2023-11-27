@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.showInvoices = exports.createInvoice = void 0;
 const InvoiceModel_1 = require("../../Models/InvoiceModel");
 const clientQueries_1 = require("../../utils/clientQueries");
+const mail_1 = require("../../mail");
 const createInvoice = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { BusinessAddress, BusinessName, ServiceDescription, Quantity, UnitPrice, Amount, ClientName, Email, Phone, Date, DueDate } = req.body;
@@ -29,6 +30,19 @@ const createInvoice = (req, res) => __awaiter(void 0, void 0, void 0, function* 
             });
         }
         const createClientInvoice = yield InvoiceModel_1.InvoiceModel.create(Object.assign({}, req.body));
+        yield (0, mail_1.invoice)(Email, {
+            BusinessAddress,
+            BusinessName,
+            ServiceDescription,
+            Quantity,
+            UnitPrice,
+            Amount,
+            ClientName,
+            Email,
+            Phone,
+            Date,
+            DueDate
+        });
         res.status(200).json({
             success: true,
             message: 'Invoice created successfully',

@@ -48,3 +48,19 @@ export async function updatePayment(BankName: string, AccountNumber: string, Acc
     }
 }
 
+
+export async function findpayment(email:string){
+    const query =`select * from ${process.env.payment} where  ${process.env.Email_Payment} = ?;`
+
+    try {
+        const result = await queryAsync(query, [email]);
+        console.log('Data updated successfully:', result);
+    } catch (error: any) {
+        console.error('Error updating data:', error.message);
+        if (error.message.includes('Out of range value for column')) {
+            throw new Error('Internal server Error: Out of range value for column');
+        } else {
+            throw new Error('Internal server error');
+        }
+    }
+}
