@@ -19,14 +19,19 @@ const openai = new openai_1.default({
 });
 function main(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
-        const { prompt } = req.params;
-        const completion = yield openai.chat.completions.create({
-            messages: [{ "role": "system", "content": "You are a helpful assistant." },
-                { "role": "user", "content": prompt }],
-            model: "gpt-3.5-turbo",
-        });
-        const result = completion.choices[0];
-        return res.status(200).send(result);
+        try {
+            const { prompt } = req.params;
+            const completion = yield openai.chat.completions.create({
+                messages: [{ "role": "system", "content": "You are a helpful assistant." },
+                    { "role": "user", "content": prompt }],
+                model: "gpt-3.5-turbo",
+            });
+            const result = completion.choices[0];
+            return res.status(200).send(result);
+        }
+        catch (error) {
+            res.status(500).json({ success: false, message: error });
+        }
     });
 }
 exports.main = main;

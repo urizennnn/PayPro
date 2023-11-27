@@ -6,8 +6,8 @@ const openai = new OpenAI({
 });
 
 export async function main(req:Request,res:Response) {
-
-    const {prompt} = req.params
+        try{
+ const {prompt} = req.params
   const completion = await openai.chat.completions.create({
     messages: [{"role": "system", "content": "You are a helpful assistant."},
         {"role": "user", "content": prompt}],
@@ -16,5 +16,9 @@ export async function main(req:Request,res:Response) {
 
   const result = completion.choices[0];
   return res.status(200).send(result)
+        }catch(error:any){
+            res.status(500).json({success:false,message:error})
+        }
+   
 }
 

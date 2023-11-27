@@ -174,4 +174,4 @@ GET  :https://paypro-laxl.onrender.com/user/dashboard
 {
     GET::https://paypro-laxl.onrender.com/OpenAi/:prompt
 }
-```
+```OpenAi
