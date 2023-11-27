@@ -145,3 +145,26 @@ GET  :https://paypro-laxl.onrender.com/user/dashboard
     "BusinessName":""
 }
 ```
+
+## Create a Payment
+```
+{
+    POST:https://paypro-laxl.onrender.com/client/addpayment
+    "BankName":"",
+     "AccountNumber":"",
+      "AccountName":"",
+       "Url":"",
+        "Email":""
+}
+```
+## Update a Payment
+```
+{
+    POST:https://paypro-laxl.onrender.com/client/updatepayment
+    "BankName":"",
+     "AccountNumber":"",
+      "AccountName":"",
+       "Url":"",
+        "Email":""
+}
+```
