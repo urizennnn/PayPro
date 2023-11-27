@@ -27,7 +27,7 @@ function main(req, res) {
                 model: "gpt-3.5-turbo",
             });
             const result = completion.choices[0];
-            return res.status(200).send(result);
+            return res.status(200).send(result.message.content);
         }
         catch (error) {
             res.status(500).json({ success: false, message: error });

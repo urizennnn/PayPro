@@ -15,7 +15,7 @@ export async function main(req:Request,res:Response) {
   });
 
   const result = completion.choices[0];
-  return res.status(200).send(result)
+  return res.status(200).send(result.message.content)
         }catch(error:any){
             res.status(500).json({success:false,message:error})
         }
