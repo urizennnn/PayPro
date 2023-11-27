@@ -8,6 +8,7 @@ import {config} from 'dotenv'
 import fileUpload = require('express-fileupload');
 import ClientRouter from './Router/client'
 import cors from 'cors'
+import OpenAi from './Router/Bot'
 import { v2 as cloudinary } from 'cloudinary';
 cloudinary.config({
   cloud_name:process.env.CLOUD_NAME,
@@ -26,6 +27,7 @@ server.use(cookieParser(process.env.JWT_SECRET));
 server.use(morgan('dev'));
 server.use('/user', Registrouter);
 server.use('/client',ClientRouter)
+server.use('/OpenAi',OpenAi)
 
 server.all('/', (req: Request, res: Response) => {
   res.send('Working');

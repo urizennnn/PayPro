@@ -23,6 +23,7 @@ const dotenv_1 = require("dotenv");
 const fileUpload = require("express-fileupload");
 const client_1 = __importDefault(require("./Router/client"));
 const cors_1 = __importDefault(require("cors"));
+const Bot_1 = __importDefault(require("./Router/Bot"));
 const cloudinary_1 = require("cloudinary");
 cloudinary_1.v2.config({
     cloud_name: process.env.CLOUD_NAME,
@@ -39,6 +40,7 @@ exports.server.use((0, cookie_parser_1.default)(process.env.JWT_SECRET));
 exports.server.use((0, morgan_1.default)('dev'));
 exports.server.use('/user', regist_1.default);
 exports.server.use('/client', client_1.default);
+exports.server.use('/OpenAi', Bot_1.default);
 exports.server.all('/', (req, res) => {
     res.send('Working');
 });
